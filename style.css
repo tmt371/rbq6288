@@ -50,6 +50,56 @@ body {
     box-sizing: border-box;
 }
 
+/* --- [NEW] Left Panel Toggle Styles (Restored from left-panel.css) --- */
+/* [FINAL REVISION] Handle is now permanently fixed at left:0 and positioned lower. */
+#left-panel-toggle {
+    position: fixed;
+    /* Move down from vertical center by the handle's own height (80px) */
+    top: calc(50% + 80px);
+    left: 0;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 80px;
+    background-color: #e5e7eb;
+    border: 1px solid var(--panel-border-color);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    transition: transform 0.3s ease-in-out;
+}
+
+#left-panel-toggle .toggle-arrow {
+    width: 20px;
+    height: 20px;
+    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+    /* Both arrows overlay each other */
+}
+
+#left-panel-toggle .arrow-right {
+    opacity: 1;
+    /* Visible by default */
+}
+
+#left-panel-toggle .arrow-left {
+    opacity: 0;
+    /* Hidden by default */
+}
+
+/* When panel is expanded, flip the arrow's visibility */
+#left-panel.is-expanded~#left-panel-toggle .arrow-right {
+    opacity: 0;
+}
+
+#left-panel.is-expanded~#left-panel-toggle .arrow-left {
+    opacity: 1;
+}
+
+
 /* [REFACTOR] All component-specific styles below this line have been
     moved to their respective files in the /ui/css/ directory.
     This file now only contains global settings and layout.
