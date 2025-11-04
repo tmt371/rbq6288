@@ -11,6 +11,11 @@ export const paths = {
             html: './04-core-code/ui/tabs/k1-tab/k1-tab.html',
             css: './04-core-code/ui/tabs/k1-tab/k1-tab.css'
         },
+        // [NEW] Add paths for K2
+        k2: {
+            html: './04-core-code/ui/tabs/k2-tab/k2-tab.html',
+            css: './04-core-code/ui/tabs/k2-tab/k2-tab.css'
+        },
         k3: {
             html: './04-core-code/ui/tabs/k3-tab/k3-tab.html',
             css: './04-core-code/ui/tabs/k3-tab/k3-tab.css'
@@ -26,6 +31,6 @@ export const paths = {
         }
     },
     data: {
-         priceMatrix: './03-data-models/price-matrix-v1.0.json'
+        priceMatrix: './03-data-models/price-matrix-v1.0.json'
     }
 };

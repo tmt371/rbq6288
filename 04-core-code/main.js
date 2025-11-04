@@ -10,6 +10,7 @@ import { EVENTS, DOM_IDS } from './config/constants.js';
 
 class App {
     constructor() {
+
         this.appContext = new AppContext();
         const migrationService = new MigrationService();
 
@@ -23,7 +24,8 @@ class App {
         const eventAggregator = this.appContext.get('eventAggregator');
         const loadPartial = async (url, targetElement, injectionMethod = 'append') => {
             try {
-                const response = await fetch(url);
+                const
+                    response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status} for ${url}`);
                 }
@@ -31,6 +33,7 @@ class App {
                 if (injectionMethod === 'innerHTML') {
                     targetElement.innerHTML = html;
                 } else {
+
                     targetElement.insertAdjacentHTML('beforeend', html);
                 }
             } catch (error) {
@@ -48,7 +51,8 @@ class App {
                 link.href = url;
                 document.head.appendChild(link);
             } catch (error) {
-                console.error(`Failed to load CSS from ${url}:`, error);
+                console.error(`Failed to load CSS 
+from ${url}:`, error);
             }
         };
 
@@ -59,12 +63,20 @@ class App {
         if (functionPanel) {
             await loadPartial(paths.partials.rightPanel, functionPanel, 'innerHTML');
         }
-        
+
         // --- [NEW] Load K1 Tab Bundle ---
-        const k1ContentContainer = document.getElementById('k1-content');
+        const k1ContentContainer =
+            document.getElementById('k1-content');
         if (k1ContentContainer) {
             await loadPartial(paths.tabs.k1.html, k1ContentContainer, 'innerHTML');
             loadCss(paths.tabs.k1.css);
+        }
+
+        // --- [NEW] Load K2 Tab Bundle ---
+        const k2ContentContainer = document.getElementById('k2-content');
+        if (k2ContentContainer) {
+            await loadPartial(paths.tabs.k2.html, k2ContentContainer, 'innerHTML');
+            loadCss(paths.tabs.k2.css);
         }
 
         // --- [NEW] Load K3 Tab Bundle ---
@@ -75,6 +87,7 @@ class App {
         }
 
         // --- [NEW] Load K4 Tab Bundle ---
+
         const k4ContentContainer = document.getElementById('k4-content');
         if (k4ContentContainer) {
             await loadPartial(paths.tabs.k4.html, k4ContentContainer, 'innerHTML');
@@ -90,6 +103,7 @@ class App {
     }
 
     async run() {
+
         console.log("Application starting...");
 
         // Step 1: Load all HTML templates into the DOM.
@@ -105,7 +119,8 @@ class App {
         const appController = this.appContext.get('appController');
         const rightPanelComponent = this.appContext.get('rightPanelComponent');
         const k1TabComponent = this.appContext.get('k1TabComponent'); // [NEW] Get K1 component
-        const k3TabComponent = this.appContext.get('k3TabComponent'); // [NEW] Get K3 component
+        const k3TabComponent =
+            this.appContext.get('k3TabComponent'); // [NEW] Get K3 component
         const k4TabComponent = this.appContext.get('k4TabComponent'); // [NEW] Get K4 component
         const k5TabComponent = this.appContext.get('k5TabComponent'); // [NEW] Get K5 component
 
@@ -114,12 +129,14 @@ class App {
         // Step 4: Initialize the main UI manager.
         this.uiManager = new UIManager({
             appElement: document.getElementById(DOM_IDS.APP),
+
             eventAggregator,
             calculationService,
             rightPanelComponent,
             k1TabComponent, // [NEW] Inject K1 component
             k3TabComponent, // [NEW] Inject K3 component
             k4TabComponent, // [NEW] Inject K4 component
+
             k5TabComponent, // [NEW] Inject K5 component
             // [REMOVED]
         });
@@ -136,6 +153,7 @@ class App {
         this.inputHandler.initialize();
 
         eventAggregator.subscribe(EVENTS.APP_READY, () => {
+
             setTimeout(() => {
                 eventAggregator.publish(EVENTS.FOCUS_CELL, { rowIndex: 0, column: 'width' });
             }, 100);

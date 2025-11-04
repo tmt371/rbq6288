@@ -2,16 +2,15 @@
 
 /**
  * @description
- * AppContext 是本應用程式的依賴注入（DI）容器，用於管理應用程式中各模組的實例化與其依賴關係。
- * 它的主要職責是：
- * 1. 集中創建與配置服務（Services）、管理器（Managers）、工廠（Factories）與視圖（Views）。
- * 2. 解決模組之間的依賴，確保每個模組都能獲得其所需要的 other 模組的實例。
- * 3. 簡化 `main.js`，使其只專注於應用程式的啟動流程，而將組件的創建細節隔離。
+ * AppContext  AppContext  DI  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext 
+ * 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. Services Services Managers Managers Factories Factories Views Views
+ * 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. Get  Get  other  other 
+ * 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. Example `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js` `main.js`
  *
- * 這個模式的好處：
- * - **集中管理**: 所有的物件的創建與組裝都集中在此，方便維護與修改。
- * - **解耦**: 模組之間不直接創建依賴，而是透過 AppContext 來獲取，降低了耦合度。
- * - **便於測試**: 在測試時，可以輕易地將真實依賴替換為注入的模擬（mock）組件。
+ * :
+ * - **: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples: Examples.
+ * - **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **Example: AppContext  AppContext 
+ * - **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **: **:Am (mock)  (mock) 
  */
 export class AppContext {
     constructor() {
@@ -19,9 +18,9 @@ export class AppContext {
     }
 
     /**
-     * 註冊一個實例。
-     * @param {string} name - 實例的名稱。
-     * @param {object} instance - 要註冊的實例。
+     * һ.
+     * @param {string} name - .
+     * @param {object} instance - .
      */
     register(name, instance) {
         this.instances[name] =
@@ -29,9 +28,10 @@ export class AppContext {
     }
 
     /**
-     * 獲取一個實例。
-     * @param {string} name - 欲獲取的實例的名稱。
-     * @returns {object} - 返回對應的實例。
+  
+   * һ.
+     * @param {string} name - .
+     * @returns {object} - .
      */
     get(name) {
         const instance = this.instances[name];
@@ -61,6 +61,7 @@ export class AppContext {
         const stateService = new StateService({
 
             initialState: initialStateWithData,
+
             eventAggregator,
             productFactory,
             configManager
@@ -73,7 +74,8 @@ export class AppContext {
             productFactory,
             configManager
         });
-        this.register('calculationService', calculationService);
+        this.register('calculationService',
+            calculationService);
 
         const fileService = new FileService({ productFactory });
         this.register('fileService', fileService);
@@ -100,6 +102,10 @@ export class AppContext {
         this.register('k1TabInputHandler', k1TabInputHandler);
         const k1TabComponent = new K1TabComponent();
         this.register('k1TabComponent', k1TabComponent);
+
+        // --- [NEW] Instantiate K2 Tab Components (Phase 5 Refactor) ---
+        const k2TabInputHandler = new K2TabInputHandler({ eventAggregator });
+        this.register('k2TabInputHandler', k2TabInputHandler);
 
         // --- [NEW] Instantiate K3 Tab Components (Phase 2 Refactor) ---
         const k3TabInputHandler = new K3TabInputHandler({ eventAggregator });
@@ -133,6 +139,7 @@ export class AppContext {
         const f4View = new F4ActionsView({ panelElement: rightPanelElement, eventAggregator });
 
         // --- Instantiate Main RightPanelComponent Manager ---
+
         const rightPanelComponent = new RightPanelComponent({
             panelElement: rightPanelElement,
 
@@ -141,6 +148,7 @@ export class AppContext {
             f2View,
             f3View,
             f4View
+
         });
         this.register('rightPanelComponent', rightPanelComponent);
 
@@ -149,7 +157,9 @@ export class AppContext {
 
         // --- Instantiate Main Left Panel Views ---
         const k1LocationView = new K1LocationView({ stateService });
-        const k2FabricView = new K2FabricView({ stateService, eventAggregator });
+        // --- [NEW] Get K2 DOM elements for injection (Phase 5 Refactor) ---
+        const fabricBatchTable = document.getElementById(DOM_IDS.FABRIC_BATCH_TABLE);
+        const k2FabricView = new K2FabricView({ stateService, eventAggregator, fabricBatchTable });
         const k3OptionsView = new K3OptionsView({ stateService });
         const dualChainView = new DualChainView({ stateService, calculationService, eventAggregator });
         const driveAccessoriesView = new DriveAccessoriesView({ stateService, calculationService, eventAggregator });
@@ -160,6 +170,7 @@ export class AppContext {
                 stateService,
                 eventAggregator,
                 k1LocationView,
+
                 k2FabricView,
                 k3OptionsView,
                 dualChainView,
@@ -170,6 +181,7 @@ export class AppContext {
 
         const workflowService = new WorkflowService({
             eventAggregator,
+
             stateService,
             fileService,
             calculationService,
@@ -177,6 +189,7 @@ export class AppContext {
             productFactory,
             detailConfigView,
             quoteGeneratorService // [NEW] Inject the new service
+
         });
         // [REMOVED]
         this.register('workflowService', workflowService);
@@ -188,6 +201,7 @@ export class AppContext {
             focusService,
             fileService,
             eventAggregator,
+
             productFactory,
             configManager
         });
@@ -199,12 +213,15 @@ export class AppContext {
             stateService,
             workflowService,
             quickQuoteView,
+
             detailConfigView
         });
         this.register('appController', appController);
 
         // [NEW] Initialize K1 Input Handler (Phase 1 Refactor)
         k1TabInputHandler.initialize();
+        // [NEW] Initialize K2 Input Handler (Phase 5 Refactor)
+        k2TabInputHandler.initialize();
         // [NEW] Initialize K3 Input Handler (Phase 2 Refactor)
         k3TabInputHandler.initialize();
         // [NEW] Initialize K4 Input Handler (Phase 4 Refactor)
@@ -228,7 +245,9 @@ import { QuoteGeneratorService } from './services/quote-generator-service.js'; /
 import { RightPanelComponent } from './ui/right-panel-component.js';
 import { QuickQuoteView } from './ui/views/quick-quote-view.js';
 import { DetailConfigView } from './ui/views/detail-config-view.js';
-import { K1LocationView } from './ui/views/k1-location-view.js';
+import {
+    K1LocationView
+} from './ui/views/k1-location-view.js';
 import { K2FabricView } from './ui/views/k2-fabric-view.js';
 import { K3OptionsView } from './ui/views/k3-options-view.js';
 import { DualChainView } from './ui/views/dual-chain-view.js';
@@ -244,6 +263,7 @@ import { DOM_IDS } from './config/constants.js'; // [NEW]
 // [NEW IMPORTS]
 import { K1TabInputHandler } from './ui/tabs/k1-tab/k1-tab-input-handler.js';
 import { K1TabComponent } from './ui/tabs/k1-tab/k1-tab-component.js';
+import { K2TabInputHandler } from './ui/tabs/k2-tab/k2-tab-input-handler.js'; // [NEW]
 import { K3TabInputHandler } from './ui/tabs/k3-tab/k3-tab-input-handler.js';
 import { K3TabComponent } from './ui/tabs/k3-tab/k3-tab-component.js';
 import { K4TabInputHandler } from './ui/tabs/k4-tab/k4-tab-input-handler.js';
