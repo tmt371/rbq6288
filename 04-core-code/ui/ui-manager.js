@@ -8,7 +8,7 @@ import { DialogComponent } from './dialog-component.js';
 // [REMOVED]
 import { EVENTS, DOM_IDS } from '../config/constants.js';
 // [NEW] Import LeftPanelTabManager
-import { LeftPanelTabManager } from './left-panel-tab-manager.js';
+import { LeftPanelTabManager } from './LeftPanelTabManager.js';
 
 export class UIManager {
     constructor({ appElement, eventAggregator, calculationService, rightPanelComponent, leftPanelTabManager, k1TabComponent, k3TabComponent, k4TabComponent, k5TabComponent }) { // [MODIFIED]

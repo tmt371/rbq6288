@@ -1,6 +1,6 @@
-// File: 04-core-code/ui/left-panel-tab-manager.js
+// File: 04-core-code/ui/LeftPanelTabManager.js
 // [NEW] This file combines the remaining logic from left-panel-component.js
-// and left-panel-input-handler.js, using the correct kebab-case filename.
+// and left-panel-input-handler.js.
 
 import { DOM_IDS, EVENTS } from '../config/constants.js';
 
