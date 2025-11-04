@@ -5,17 +5,18 @@ import { SummaryComponent } from './summary-component.js';
 import { PanelComponent } from './panel-component.js';
 import { NotificationComponent } from './notification-component.js';
 import { DialogComponent } from './dialog-component.js';
-import { LeftPanelComponent } from './left-panel-component.js';
+// [REMOVED]
 import { EVENTS, DOM_IDS } from '../config/constants.js';
-// [NEW] Import K1 component (path will be defined in main.js or similar)
-// Note: We don't import K1TabComponent here directly, as it's injected by the App class.
+// [NEW] Import LeftPanelTabManager
+import { LeftPanelTabManager } from './left-panel-tab-manager.js';
 
 export class UIManager {
-    constructor({ appElement, eventAggregator, calculationService, rightPanelComponent, k1TabComponent, k3TabComponent, k4TabComponent, k5TabComponent }) { // [NEW] Add k1/k3/k4/k5TabComponent
+    constructor({ appElement, eventAggregator, calculationService, rightPanelComponent, leftPanelTabManager, k1TabComponent, k3TabComponent, k4TabComponent, k5TabComponent }) { // [MODIFIED]
         this.appElement = appElement;
         this.eventAggregator = eventAggregator;
         this.calculationService = calculationService;
         this.rightPanelComponent = rightPanelComponent; // [MODIFIED] Receive instance
+        this.leftPanelTabManager = leftPanelTabManager; // [NEW] Store instance
         this.k1TabComponent = k1TabComponent; // [NEW] Store instance
         this.k3TabComponent = k3TabComponent; // [NEW] Store instance
         this.k4TabComponent = k4TabComponent; // [NEW] Store instance
@@ -31,10 +32,12 @@ export class UIManager {
         const tableElement = document.getElementById(DOM_IDS.RESULTS_TABLE);
         this.tableComponent = new TableComponent(tableElement);
 
-        const summaryElement = document.getElementById(DOM_IDS.TOTAL_SUM_VALUE);
+        const summaryElement =
+            document.getElementById(DOM_IDS.TOTAL_SUM_VALUE);
         this.summaryComponent = new SummaryComponent(summaryElement);
 
-        this.leftPanelComponent = new LeftPanelComponent(this.leftPanelElement);
+        // [REMOVED]
+        // this.leftPanelComponent = new LeftPanelComponent(this.leftPanelElement);
 
         this.functionPanel = new PanelComponent({
             panelElement: document.getElementById(DOM_IDS.FUNCTION_PANEL),
@@ -42,11 +45,13 @@ export class UIManager {
             eventAggregator: this.eventAggregator,
             expandedClass: 'is-expanded',
             retractEventName: EVENTS.OPERATION_SUCCESSFUL_AUTO_HIDE_PANEL,
+
             // [NEW] Add onToggle callback to default to F1 tab when opened.
             onToggle: (isExpanded) => {
                 if (isExpanded) {
                     this.rightPanelComponent.setActiveTab('f1-tab');
                 }
+
             }
         });
 
@@ -59,6 +64,7 @@ export class UIManager {
 
         this.dialogComponent = new DialogComponent({
             overlayElement: document.getElementById(DOM_IDS.CONFIRMATION_DIALOG_OVERLAY),
+
             eventAggregator: this.eventAggregator
         });
 
@@ -72,10 +78,12 @@ export class UIManager {
         this.eventAggregator.subscribe(EVENTS.FOCUS_ELEMENT, ({ elementId }) => {
             const element = document.getElementById(elementId);
             if (element) {
+
                 setTimeout(() => {
                     element.focus();
                     if (typeof element.select === 'function') {
                         element.select();
+
                     }
                 }, 50); // A small delay to ensure the element is rendered and focusable.
             }
@@ -100,7 +108,8 @@ export class UIManager {
         const key0 = this.numericKeyboardPanel.querySelector('#key-0');
         const typeKey = this.numericKeyboardPanel.querySelector('#key-type');
 
-        if (!key7 || !key0 || !typeKey) {
+        if (!key7
+            || !key0 || !typeKey) {
             console.error("One or more reference elements for panel positioning are missing.");
             return;
         }
@@ -121,6 +130,7 @@ export class UIManager {
     }
 
     render(state) {
+
         const isDetailView = state.ui.currentView === 'DETAIL_CONFIG';
         this.appElement.classList.toggle('detail-view-active', isDetailView);
 
@@ -129,22 +139,26 @@ export class UIManager {
 
         this.tableComponent.render(state);
         this.summaryComponent.render(currentProductData.summary, state.ui.isSumOutdated);
-        
+
+        // [MODIFIED] Delegate tab/panel rendering to the new LeftPanelTabManager
+        this.leftPanelTabManager.render(state.ui);
+
         // [MODIFIED] Delegate K1/K3/K4/K5 rendering to their own components
-        this.leftPanelComponent.render(state.ui, state.quoteData); // Still renders K2
-        if (this.k1TabComponent) { 
+        if (this.k1TabComponent) {
             this.k1TabComponent.render(state.ui); // Renders K1
         }
-        if (this.k3TabComponent) { 
+
+        if (this.k3TabComponent) {
             this.k3TabComponent.render(state.ui); // Renders K3
         }
         if (this.k4TabComponent) { // [NEW] Check and render K4
             this.k4TabComponent.render(state.ui);
         }
-        if (this.k5TabComponent) { 
+        if (this.k5TabComponent) {
             this.k5TabComponent.render(state.ui, state.quoteData); // Renders K5
+
         }
-        
+
         this.rightPanelComponent.render(state);
 
         this._updateButtonStates(state);
@@ -160,6 +174,7 @@ export class UIManager {
             if (isExpanded) {
                 setTimeout(() => this._updateExpandedPanelPosition(), 0);
             }
+
         }
     }
 
@@ -175,7 +190,8 @@ export class UIManager {
         let insertDisabled = true;
         if (isSingleSelection) {
             const selectedIndex = multiSelectSelectedIndexes[0];
-            const isLastRow = selectedIndex === items.length - 1;
+            const isLastRow =
+                selectedIndex === items.length - 1;
             if (!isLastRow) {
                 const nextItem = items[selectedIndex + 1];
                 const isNextRowEmpty = !nextItem.width && !nextItem.height && !nextItem.fabricType;
@@ -184,6 +200,7 @@ export class UIManager {
                 }
             }
         }
+
         if (this.insertButton) this.insertButton.disabled = insertDisabled;
 
         // --- Clear Button Logic ---
@@ -192,6 +209,7 @@ export class UIManager {
             const selectedIndex = multiSelectSelectedIndexes[0];
             const itemsLength = items.length;
             // Also disable if it's the last data row or the final empty row
+
             if (selectedIndex >= itemsLength - 2) {
                 clearDisabled = true;
             }
@@ -204,6 +222,7 @@ export class UIManager {
         const { rowIndex, column } = state.ui.activeCell;
         const activeCellElement = document.querySelector(`tr[data-row-index="${rowIndex}"] td[data-column="${column}"]`);
         if (activeCellElement) {
+
             activeCellElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }

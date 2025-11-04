@@ -118,6 +118,7 @@ from ${url}:`, error);
         const configManager = this.appContext.get('configManager');
         const appController = this.appContext.get('appController');
         const rightPanelComponent = this.appContext.get('rightPanelComponent');
+        const leftPanelTabManager = this.appContext.get('leftPanelTabManager'); // [NEW] Get LeftPanelTabManager
         const k1TabComponent = this.appContext.get('k1TabComponent'); // [NEW] Get K1 component
         const k3TabComponent =
             this.appContext.get('k3TabComponent'); // [NEW] Get K3 component
@@ -133,6 +134,7 @@ from ${url}:`, error);
             eventAggregator,
             calculationService,
             rightPanelComponent,
+            leftPanelTabManager, // [NEW] Inject LeftPanelTabManager
             k1TabComponent, // [NEW] Inject K1 component
             k3TabComponent, // [NEW] Inject K3 component
             k4TabComponent, // [NEW] Inject K4 component
