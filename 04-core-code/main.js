@@ -97,7 +97,7 @@ from ${url}:`, error);
         // --- [NEW] Load K5 Tab Bundle ---
         const k5ContentContainer = document.getElementById('k5-content');
         if (k5ContentContainer) {
-            await loadPartial(paths.tabs.k5.html, k5ContentContainer, 'innerHTML'); // [FIXED] kT5 -> k5
+            await loadPartial(paths.tabs.kT5.html, k5ContentContainer, 'innerHTML');
             loadCss(paths.tabs.k5.css);
         }
     }
