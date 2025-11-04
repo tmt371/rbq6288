@@ -18,6 +18,14 @@
     --primary-color: #1a237e;
     --medium-blue-color: #1976D2;
     --header-border-color: #696969;
+
+    /* [NEW] K-Tab variables restored from left-panel.css */
+    --tab-active-color: #1a237e;
+    --k1-bg-color: hsl(220, 15%, 96%);
+    --k2-bg-color: hsl(220, 15%, 91%);
+    --k3-bg-color: hsl(220, 15%, 86%);
+    --k4-bg-color: hsl(220, 15%, 81%);
+    --k5-bg-color: hsl(220, 15%, 76%);
 }
 
 /* --- Base Styles --- */
@@ -49,6 +57,29 @@ body {
     padding: 0 20px 20px 20px;
     box-sizing: border-box;
 }
+
+/* --- [NEW] Left Panel Styles (Restored from left-panel.css) --- */
+#left-panel {
+    position: fixed;
+    left: 0;
+    background-color: var(--k1-bg-color);
+    border: 1px solid var(--panel-border-color);
+    border-left: none;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: transform 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    transform: translateX(-100%);
+}
+
+#left-panel.is-expanded {
+    transform: translateX(0);
+}
+
 
 /* --- [NEW] Left Panel Toggle Styles (Restored from left-panel.css) --- */
 /* [FINAL REVISION] Handle is now permanently fixed at left:0 and positioned lower. */
