@@ -1,10 +1,12 @@
 // File: 04-core-code/ui/input-handler.js
 
+import { LeftPanelInputHandler } from './left-panel-input-handler.js';
 import { EVENTS, DOM_IDS } from '../config/constants.js';
 
 export class InputHandler {
     constructor(eventAggregator) {
         this.eventAggregator = eventAggregator;
+        this.leftPanelHandler = new LeftPanelInputHandler(eventAggregator);
         this.longPressTimer = null;
         this.pressThreshold = 500; // 500ms for a long press
         this.isLongPress = false;
@@ -17,6 +19,8 @@ export class InputHandler {
         this._setupPanelToggles();
         this._setupFileLoader();
         this._setupPhysicalKeyboard();
+        
+        this.leftPanelHandler.initialize();
     }
 
     _setupPhysicalKeyboard() {
@@ -26,23 +30,20 @@ export class InputHandler {
             if (event.target.matches('input:not([readonly]), textarea')) {
                 return;
             }
-
+            
             let keyToPublish = null;
             let eventToPublish = EVENTS.NUMERIC_KEY_PRESSED;
             const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
-
             if (arrowKeys.includes(event.key)) {
                 event.preventDefault();
                 const direction = event.key.replace('Arrow', '').toLowerCase();
                 this.eventAggregator.publish(EVENTS.USER_MOVED_ACTIVE_CELL, { direction });
                 return;
-
             }
             if (event.key >= '0' && event.key <= '9') {
                 keyToPublish = event.key;
-            }
+            } 
             // [FIX] Add a check to ensure event.key is not null or undefined before calling .toLowerCase()
-
             else if (event.key) {
                 switch (event.key.toLowerCase()) {
                     case 'w': keyToPublish = 'W'; break;
@@ -51,8 +52,7 @@ export class InputHandler {
                     case '$': this.eventAggregator.publish(EVENTS.USER_REQUESTED_CALCULATE_AND_SUM); return;
                     case 'enter': keyToPublish = 'ENT'; event.preventDefault(); break;
                     case 'backspace': keyToPublish = 'DEL'; event.preventDefault(); break;
-                    case
-                        'delete': eventToPublish = EVENTS.USER_REQUESTED_CLEAR_ROW; break;
+                    case 'delete': eventToPublish = EVENTS.USER_REQUESTED_CLEAR_ROW; break;
                 }
             }
             if (keyToPublish !== null) {
@@ -60,7 +60,6 @@ export class InputHandler {
             } else if (eventToPublish === EVENTS.USER_REQUESTED_CLEAR_ROW) {
                 this.eventAggregator.publish(eventToPublish);
             }
-
         });
     }
 
@@ -70,17 +69,14 @@ export class InputHandler {
             fileLoader.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (!file) { return; }
-
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const content = e.target.result;
                     this.eventAggregator.publish(EVENTS.FILE_LOADED, { fileName: file.name, content: content });
-
                 };
                 reader.onerror = () => {
                     this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: `Error reading file: ${reader.error}`, type: 'error' });
                 };
-
                 reader.readAsText(file);
                 event.target.value = '';
             });
@@ -88,11 +84,10 @@ export class InputHandler {
         this.eventAggregator.subscribe(EVENTS.TRIGGER_FILE_LOAD, () => {
             if (fileLoader) {
                 fileLoader.click();
-
             }
         });
     }
-
+    
     _setupPanelToggles() {
         const numericToggle = document.getElementById(DOM_IDS.PANEL_TOGGLE);
         if (numericToggle) {
@@ -102,14 +97,12 @@ export class InputHandler {
         }
     }
 
-
     _setupFunctionKeys() {
         const setupButton = (id, eventName) => {
             const button = document.getElementById(id);
             if (button) {
                 button.addEventListener('click', () => {
                     this.eventAggregator.publish(eventName);
-
                 });
             }
         };
@@ -118,20 +111,18 @@ export class InputHandler {
         setupButton('key-reset', EVENTS.USER_REQUESTED_RESET);
         setupButton(DOM_IDS.KEY_M_SET, EVENTS.USER_REQUESTED_MULTI_TYPE_SET);
     }
-
+    
     _setupNumericKeyboard() {
         const keyboard = document.getElementById(DOM_IDS.NUMERIC_KEYBOARD);
         if (!keyboard) return;
 
         const addLongPressSupport = (button, longPressEventName, clickEventName, data = {}) => {
-
             const startPress = (e) => {
                 e.preventDefault();
                 this.isLongPress = false;
                 this.longPressTimer = setTimeout(() => {
                     this.isLongPress = true;
                     this.eventAggregator.publish(longPressEventName, data);
-
                 }, this.pressThreshold);
             };
 
@@ -146,17 +137,15 @@ export class InputHandler {
             button.addEventListener('touchstart', startPress, { passive: false });
             button.addEventListener('mouseup', endPress);
             button.addEventListener('mouseleave', () => clearTimeout(this.longPressTimer));
-            button.addEventListener('touchend',
-                endPress);
+            button.addEventListener('touchend', endPress);
         };
-
+        
         const addButtonListener = (id, eventName, data = {}) => {
             const button = document.getElementById(id);
-            if (button) {
+            if(button) {
                 if (id === 'key-type') {
                     addLongPressSupport(button, EVENTS.TYPE_BUTTON_LONG_PRESSED, EVENTS.USER_REQUESTED_CYCLE_TYPE, data);
                 } else {
-
                     button.addEventListener('click', () => {
                         this.eventAggregator.publish(eventName, data);
                     });
@@ -165,7 +154,6 @@ export class InputHandler {
         };
 
         // Main grid keys
-
         addButtonListener('key-7', EVENTS.NUMERIC_KEY_PRESSED, { key: '7' });
         addButtonListener('key-8', EVENTS.NUMERIC_KEY_PRESSED, { key: '8' });
         addButtonListener('key-9', EVENTS.NUMERIC_KEY_PRESSED, { key: '9' });
@@ -176,11 +164,10 @@ export class InputHandler {
         addButtonListener('key-2', EVENTS.NUMERIC_KEY_PRESSED, { key: '2' });
         addButtonListener('key-3', EVENTS.NUMERIC_KEY_PRESSED, { key: '3' });
         addButtonListener('key-0', EVENTS.NUMERIC_KEY_PRESSED, { key: '0' });
-
+        
         // Function keys within the grid
         addButtonListener('key-w', EVENTS.NUMERIC_KEY_PRESSED, { key: 'W' });
-        addButtonListener('key-h',
-            EVENTS.NUMERIC_KEY_PRESSED, { key: 'H' });
+        addButtonListener('key-h', EVENTS.NUMERIC_KEY_PRESSED, { key: 'H' });
         addButtonListener('key-price', EVENTS.USER_REQUESTED_CALCULATE_AND_SUM);
         addButtonListener('key-type', EVENTS.USER_REQUESTED_CYCLE_TYPE);
         addButtonListener('key-del', EVENTS.NUMERIC_KEY_PRESSED, { key: 'DEL' });
@@ -195,46 +182,42 @@ export class InputHandler {
         if (table) {
             const startPress = (e) => {
                 const target = e.target;
-                if (target.tagName === 'TD'
-                    && target.dataset.column === 'TYPE') {
+                if (target.tagName === 'TD' && target.dataset.column === 'TYPE') {
                     this.isLongPress = false;
                     this.longPressTimer = setTimeout(() => {
                         this.isLongPress = true;
                         const rowIndex = target.parentElement.dataset.rowIndex;
-
                         this.eventAggregator.publish(EVENTS.TYPE_CELL_LONG_PRESSED, { rowIndex: parseInt(rowIndex, 10) });
                     }, this.pressThreshold);
                 }
             };
-
+            
             const endPress = (e) => {
                 clearTimeout(this.longPressTimer);
+
                 if (!this.isLongPress) {
                     const target = e.target;
                     if (target.tagName === 'TD') {
                         const column = target.dataset.column;
                         const rowIndex = target.parentElement.dataset.rowIndex;
                         if (column && rowIndex) {
-
                             const eventData = { rowIndex: parseInt(rowIndex, 10), column };
                             if (column === 'sequence') {
                                 this.eventAggregator.publish(EVENTS.SEQUENCE_CELL_CLICKED, eventData);
                             } else {
-
                                 this.eventAggregator.publish(EVENTS.TABLE_CELL_CLICKED, eventData);
                             }
                         }
                     }
                 }
-                this.isLongPress =
-                    false;
+                this.isLongPress = false;
             };
 
             table.addEventListener('mousedown', startPress);
             table.addEventListener('touchstart', startPress, { passive: false });
-
+            
             table.addEventListener('mouseup', endPress);
-
+            
             table.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 endPress(e);
@@ -242,7 +225,6 @@ export class InputHandler {
 
             table.addEventListener('mouseleave', () => {
                 clearTimeout(this.longPressTimer);
-
             }, true);
         }
     }
