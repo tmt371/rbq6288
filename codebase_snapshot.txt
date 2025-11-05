@@ -6885,14 +6885,13 @@ node_modules/
 /* File: style.css */
 
 /* --- [REFACTOR] Import all component style modules --- */
-@import url('./04-core-code/ui/partials/left-panel.css');
 @import url('./04-core-code/ui/css/dialog.css');
 @import url('./04-core-code/ui/css/right-panel.css');
 @import url('./04-core-code/ui/css/f3-adjustments.css');
 @import url('./04-core-code/ui/css/virtual-keyboard.css');
 @import url('./04-core-code/ui/css/results-table.css');
 @import url('./04-core-code/ui/css/toast-notification.css');
-/* [REMOVED] */
+/* [REMOVED] left-panel.css import removed */
 
 /* --- Global Variables --- */
 :root {
@@ -6903,6 +6902,14 @@ node_modules/
     --primary-color: #1a237e;
     --medium-blue-color: #1976D2;
     --header-border-color: #696969;
+
+    /* [NEW] K-Tab variables restored from left-panel.css */
+    --tab-active-color: #1a237e;
+    --k1-bg-color: hsl(220, 15%, 96%);
+    --k2-bg-color: hsl(220, 15%, 91%);
+    --k3-bg-color: hsl(220, 15%, 86%);
+    --k4-bg-color: hsl(220, 15%, 81%);
+    --k5-bg-color: hsl(220, 15%, 76%);
 }
 
 /* --- Base Styles --- */
@@ -6934,6 +6941,251 @@ body {
     padding: 0 20px 20px 20px;
     box-sizing: border-box;
 }
+
+/* --- [NEW] Left Panel Styles (Restored from left-panel.css) --- */
+#left-panel {
+    position: fixed;
+    left: 0;
+    background-color: var(--k1-bg-color);
+    border: 1px solid var(--panel-border-color);
+    border-left: none;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: transform 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    transform: translateX(-100%);
+}
+
+#left-panel.is-expanded {
+    transform: translateX(0);
+}
+
+
+/* --- [NEW] Left Panel Toggle Styles (Restored from left-panel.css) --- */
+/* [FINAL REVISION] Handle is now permanently fixed at left:0 and positioned lower. */
+#left-panel-toggle {
+    position: fixed;
+    /* Move down from vertical center by the handle's own height (80px) */
+    top: calc(50% + 80px);
+    left: 0;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 80px;
+    background-color: #e5e7eb;
+    border: 1px solid var(--panel-border-color);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    transition: transform 0.3s ease-in-out;
+}
+
+#left-panel-toggle .toggle-arrow {
+    width: 20px;
+    height: 20px;
+    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+    /* Both arrows overlay each other */
+}
+
+#left-panel-toggle .arrow-right {
+    opacity: 1;
+    /* Visible by default */
+}
+
+#left-panel-toggle .arrow-left {
+    opacity: 0;
+    /* Hidden by default */
+}
+
+/* When panel is expanded, flip the arrow's visibility */
+#left-panel.is-expanded~#left-panel-toggle .arrow-right {
+    opacity: 0;
+}
+
+#left-panel.is-expanded~#left-panel-toggle .arrow-left {
+    opacity: 1;
+}
+
+/* --- [NEW] Left Panel Tab Styles (Restored from left-panel.css) --- */
+.tab-container {
+    display: flex;
+    flex-shrink: 0;
+    background-color: #d1d5db;
+}
+
+.tab-button {
+    height: 30px;
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #4b5563;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+    background-color: #e5e7eb;
+}
+
+.tab-button.active {
+    color: white;
+}
+
+.tab-button:disabled {
+    background-color: #6c757d !important;
+    color: #e9ecef !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#k1-tab.active {
+    background-color: var(--k1-bg-color);
+    border-color: var(--tab-active-color);
+    color: var(--tab-active-color);
+}
+
+#k2-tab.active {
+    background-color: var(--k2-bg-color);
+    border-color: var(--tab-active-color);
+    color: var(--tab-active-color);
+}
+
+#k3-tab.active {
+    background-color: var(--k3-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+#k4-tab.active {
+    background-color: var(--k4-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+#k5-tab.active {
+    background-color: var(--k5-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+.tab-content-container {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#k1-content {
+    background-color: var(--k1-bg-color);
+}
+
+#k2-content {
+    background-color: var(--k2-bg-color);
+}
+
+#k3-content {
+    background-color: var(--k3-bg-color);
+}
+
+#k4-content {
+    background-color: var(--k4-bg-color);
+}
+
+#k5-content {
+    background-color: var(--k5-bg-color);
+}
+
+/* --- [NEW] Left Panel Feature Styles (Restored from left-panel.css) --- */
+.feature-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feature-group {}
+
+.feature-label {
+    display: block;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #4b5563;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.feature-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.feature-button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #b0b8c4;
+    background-color: #fff;
+    font-weight: 500;
+    transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+    flex-grow: 1;
+}
+
+.feature-button.active {
+    background-color: var(--highlight-color);
+    font-weight: bold;
+}
+
+.feature-button.active:hover {
+    background-color: var(--highlight-color);
+}
+
+.feature-button:disabled {
+    background-color: #6c757d;
+    border-color: #5a6268;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.feature-button:hover {
+    background-color: #f0f2f5;
+}
+
+.feature-button:active {
+    background-color: #e5e7eb;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.batch-button {
+    background-color: #e0f2fe;
+    border-color: #7dd3fc;
+}
+
+.batch-button:hover {
+    background-color: #bae6fd;
+}
+
 
 /* [REFACTOR] All component-specific styles below this line have been
     moved to their respective files in the /ui/css/ directory.
@@ -7201,16 +7453,10 @@ export default {
 
 /**
  * @description
- * AppContext ?¯æœ¬?‰ç”¨ç¨‹å??„ä?è³´æ³¨?¥ï?DIï¼‰å®¹?¨ï??¨æ–¼ç®¡ç??‰ç”¨ç¨‹å?ä¸­å?æ¨¡ç??„å¯¦ä¾‹å??‡å…¶ä¾è³´?œä???
- * å®ƒç?ä¸»è??·è²¬?¯ï?
- * 1. ?†ä¸­?µå»º?‡é?ç½®æ??™ï?Servicesï¼‰ã€ç®¡?†å™¨ï¼ˆManagersï¼‰ã€å·¥å» ï?Factoriesï¼‰è?è¦–å?ï¼ˆViewsï¼‰ã€?
- * 2. è§?±ºæ¨¡ç?ä¹‹é??„ä?è³´ï?ç¢ºä?æ¯å€‹æ¨¡çµ„éƒ½?½ç²å¾—å…¶?€?€è¦ç? other æ¨¡ç??„å¯¦ä¾‹ã€?
- * 3. ç°¡å? `main.js`ï¼Œä½¿?¶åªå°ˆæ³¨?¼æ??¨ç?å¼ç??Ÿå?æµç?ï¼Œè€Œå?çµ„ä»¶?„å‰µå»ºç´°ç¯€?”é›¢??
- *
- * ?™å€‹æ¨¡å¼ç?å¥½è?ï¼?
- * - **?†ä¸­ç®¡ç?**: ?€?‰ç??©ä»¶?„å‰µå»ºè?çµ„è??½é?ä¸­åœ¨æ­¤ï??¹ä¾¿ç¶­è­·?‡ä¿®?¹ã€?
- * - **è§?€?*: æ¨¡ç?ä¹‹é?ä¸ç›´?¥å‰µå»ºä?è³´ï??Œæ˜¯?é? AppContext ä¾†ç²?–ï??ä?äº†è€¦å?åº¦ã€?
- * - **ä¾¿æ–¼æ¸¬è©¦**: ?¨æ¸¬è©¦æ?ï¼Œå¯ä»¥è??“åœ°å°‡ç?å¯¦ä?è³´æ›¿?›ç‚ºæ³¨å…¥?„æ¨¡?¬ï?mockï¼‰ç?ä»¶ã€?
+ * AppContext  AppContext  DI  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext  AppContext 
+ * 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. Example: Services, Managers, Factories, Views
+ * 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. 2. Example: AppContext 
+ * 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. 3. Examples (mock) 
  */
 export class AppContext {
     constructor() {
@@ -7218,9 +7464,9 @@ export class AppContext {
     }
 
     /**
-     * è¨»å?ä¸€?‹å¯¦ä¾‹ã€?
-     * @param {string} name - å¯¦ä??„å?ç¨±ã€?
-     * @param {object} instance - è¦è¨»?Šç?å¯¦ä???
+     * Ò».
+     * @param {string} name - .
+     * @param {object} instance - .
      */
     register(name, instance) {
         this.instances[name] =
@@ -7228,9 +7474,10 @@ export class AppContext {
     }
 
     /**
-     * ?²å?ä¸€?‹å¯¦ä¾‹ã€?
-     * @param {string} name - æ¬²ç²?–ç?å¯¦ä??„å?ç¨±ã€?
-     * @returns {object} - è¿”å?å°æ??„å¯¦ä¾‹ã€?
+  
+   * Ò».
+     * @param {string} name - .
+     * @returns {object} - .
      */
     get(name) {
         const instance = this.instances[name];
@@ -7260,6 +7507,7 @@ export class AppContext {
         const stateService = new StateService({
 
             initialState: initialStateWithData,
+
             eventAggregator,
             productFactory,
             configManager
@@ -7272,7 +7520,8 @@ export class AppContext {
             productFactory,
             configManager
         });
-        this.register('calculationService', calculationService);
+        this.register('calculationService',
+            calculationService);
 
         const fileService = new FileService({ productFactory });
         this.register('fileService', fileService);
@@ -7294,11 +7543,20 @@ export class AppContext {
         const focusService = this.get('focusService');
         const fileService = this.get('fileService');
 
+        // --- [NEW] Instantiate LeftPanelTabManager (Phase 6 Refactor) ---
+        const leftPanelElement = document.getElementById(DOM_IDS.LEFT_PANEL);
+        const leftPanelTabManager = new LeftPanelTabManager(leftPanelElement, eventAggregator);
+        this.register('leftPanelTabManager', leftPanelTabManager);
+
         // --- [NEW] Instantiate K1 Tab Components (Phase 1 Refactor) ---
         const k1TabInputHandler = new K1TabInputHandler({ eventAggregator });
         this.register('k1TabInputHandler', k1TabInputHandler);
         const k1TabComponent = new K1TabComponent();
         this.register('k1TabComponent', k1TabComponent);
+
+        // --- [NEW] Instantiate K2 Tab Components (Phase 5 Refactor) ---
+        const k2TabInputHandler = new K2TabInputHandler({ eventAggregator });
+        this.register('k2TabInputHandler', k2TabInputHandler);
 
         // --- [NEW] Instantiate K3 Tab Components (Phase 2 Refactor) ---
         const k3TabInputHandler = new K3TabInputHandler({ eventAggregator });
@@ -7332,6 +7590,7 @@ export class AppContext {
         const f4View = new F4ActionsView({ panelElement: rightPanelElement, eventAggregator });
 
         // --- Instantiate Main RightPanelComponent Manager ---
+
         const rightPanelComponent = new RightPanelComponent({
             panelElement: rightPanelElement,
 
@@ -7340,6 +7599,7 @@ export class AppContext {
             f2View,
             f3View,
             f4View
+
         });
         this.register('rightPanelComponent', rightPanelComponent);
 
@@ -7348,7 +7608,9 @@ export class AppContext {
 
         // --- Instantiate Main Left Panel Views ---
         const k1LocationView = new K1LocationView({ stateService });
-        const k2FabricView = new K2FabricView({ stateService, eventAggregator });
+        // --- [NEW] Get K2 DOM elements for injection (Phase 5 Refactor) ---
+        const fabricBatchTable = document.getElementById(DOM_IDS.FABRIC_BATCH_TABLE);
+        const k2FabricView = new K2FabricView({ stateService, eventAggregator, fabricBatchTable });
         const k3OptionsView = new K3OptionsView({ stateService });
         const dualChainView = new DualChainView({ stateService, calculationService, eventAggregator });
         const driveAccessoriesView = new DriveAccessoriesView({ stateService, calculationService, eventAggregator });
@@ -7359,6 +7621,7 @@ export class AppContext {
                 stateService,
                 eventAggregator,
                 k1LocationView,
+
                 k2FabricView,
                 k3OptionsView,
                 dualChainView,
@@ -7369,6 +7632,7 @@ export class AppContext {
 
         const workflowService = new WorkflowService({
             eventAggregator,
+
             stateService,
             fileService,
             calculationService,
@@ -7376,6 +7640,7 @@ export class AppContext {
             productFactory,
             detailConfigView,
             quoteGeneratorService // [NEW] Inject the new service
+
         });
         // [REMOVED]
         this.register('workflowService', workflowService);
@@ -7387,6 +7652,7 @@ export class AppContext {
             focusService,
             fileService,
             eventAggregator,
+
             productFactory,
             configManager
         });
@@ -7398,12 +7664,17 @@ export class AppContext {
             stateService,
             workflowService,
             quickQuoteView,
+
             detailConfigView
         });
         this.register('appController', appController);
 
+        // [NEW] Initialize LeftPanelTabManager (Phase 6 Refactor)
+        leftPanelTabManager.initialize();
         // [NEW] Initialize K1 Input Handler (Phase 1 Refactor)
         k1TabInputHandler.initialize();
+        // [NEW] Initialize K2 Input Handler (Phase 5 Refactor)
+        k2TabInputHandler.initialize();
         // [NEW] Initialize K3 Input Handler (Phase 2 Refactor)
         k3TabInputHandler.initialize();
         // [NEW] Initialize K4 Input Handler (Phase 4 Refactor)
@@ -7427,7 +7698,9 @@ import { QuoteGeneratorService } from './services/quote-generator-service.js'; /
 import { RightPanelComponent } from './ui/right-panel-component.js';
 import { QuickQuoteView } from './ui/views/quick-quote-view.js';
 import { DetailConfigView } from './ui/views/detail-config-view.js';
-import { K1LocationView } from './ui/views/k1-location-view.js';
+import {
+    K1LocationView
+} from './ui/views/k1-location-view.js';
 import { K2FabricView } from './ui/views/k2-fabric-view.js';
 import { K3OptionsView } from './ui/views/k3-options-view.js';
 import { DualChainView } from './ui/views/dual-chain-view.js';
@@ -7437,12 +7710,13 @@ import { F1CostView } from './ui/views/f1-cost-view.js';
 import { F2SummaryView } from './ui/views/f2-summary-view.js';
 import { F3QuotePrepView } from './ui/views/f3-quote-prep-view.js';
 import { F4ActionsView } from './ui/views/f4-actions-view.js';
-// [REMOVED]
+import { LeftPanelTabManager } from './ui/left-panel-tab-manager.js'; // [MODIFIED]
 import { DOM_IDS } from './config/constants.js'; // [NEW]
 
 // [NEW IMPORTS]
 import { K1TabInputHandler } from './ui/tabs/k1-tab/k1-tab-input-handler.js';
 import { K1TabComponent } from './ui/tabs/k1-tab/k1-tab-component.js';
+import { K2TabInputHandler } from './ui/tabs/k2-tab/k2-tab-input-handler.js'; // [NEW]
 import { K3TabInputHandler } from './ui/tabs/k3-tab/k3-tab-input-handler.js';
 import { K3TabComponent } from './ui/tabs/k3-tab/k3-tab-component.js';
 import { K4TabInputHandler } from './ui/tabs/k4-tab/k4-tab-input-handler.js';
@@ -7776,6 +8050,7 @@ import { EVENTS, DOM_IDS } from './config/constants.js';
 
 class App {
     constructor() {
+
         this.appContext = new AppContext();
         const migrationService = new MigrationService();
 
@@ -7789,7 +8064,8 @@ class App {
         const eventAggregator = this.appContext.get('eventAggregator');
         const loadPartial = async (url, targetElement, injectionMethod = 'append') => {
             try {
-                const response = await fetch(url);
+                const
+                    response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status} for ${url}`);
                 }
@@ -7797,6 +8073,7 @@ class App {
                 if (injectionMethod === 'innerHTML') {
                     targetElement.innerHTML = html;
                 } else {
+
                     targetElement.insertAdjacentHTML('beforeend', html);
                 }
             } catch (error) {
@@ -7814,7 +8091,8 @@ class App {
                 link.href = url;
                 document.head.appendChild(link);
             } catch (error) {
-                console.error(`Failed to load CSS from ${url}:`, error);
+                console.error(`Failed to load CSS 
+from ${url}:`, error);
             }
         };
 
@@ -7825,12 +8103,20 @@ class App {
         if (functionPanel) {
             await loadPartial(paths.partials.rightPanel, functionPanel, 'innerHTML');
         }
-        
+
         // --- [NEW] Load K1 Tab Bundle ---
-        const k1ContentContainer = document.getElementById('k1-content');
+        const k1ContentContainer =
+            document.getElementById('k1-content');
         if (k1ContentContainer) {
             await loadPartial(paths.tabs.k1.html, k1ContentContainer, 'innerHTML');
             loadCss(paths.tabs.k1.css);
+        }
+
+        // --- [NEW] Load K2 Tab Bundle ---
+        const k2ContentContainer = document.getElementById('k2-content');
+        if (k2ContentContainer) {
+            await loadPartial(paths.tabs.k2.html, k2ContentContainer, 'innerHTML');
+            loadCss(paths.tabs.k2.css);
         }
 
         // --- [NEW] Load K3 Tab Bundle ---
@@ -7841,6 +8127,7 @@ class App {
         }
 
         // --- [NEW] Load K4 Tab Bundle ---
+
         const k4ContentContainer = document.getElementById('k4-content');
         if (k4ContentContainer) {
             await loadPartial(paths.tabs.k4.html, k4ContentContainer, 'innerHTML');
@@ -7856,6 +8143,7 @@ class App {
     }
 
     async run() {
+
         console.log("Application starting...");
 
         // Step 1: Load all HTML templates into the DOM.
@@ -7870,8 +8158,10 @@ class App {
         const configManager = this.appContext.get('configManager');
         const appController = this.appContext.get('appController');
         const rightPanelComponent = this.appContext.get('rightPanelComponent');
+        const leftPanelTabManager = this.appContext.get('leftPanelTabManager'); // [NEW] Get LeftPanelTabManager
         const k1TabComponent = this.appContext.get('k1TabComponent'); // [NEW] Get K1 component
-        const k3TabComponent = this.appContext.get('k3TabComponent'); // [NEW] Get K3 component
+        const k3TabComponent =
+            this.appContext.get('k3TabComponent'); // [NEW] Get K3 component
         const k4TabComponent = this.appContext.get('k4TabComponent'); // [NEW] Get K4 component
         const k5TabComponent = this.appContext.get('k5TabComponent'); // [NEW] Get K5 component
 
@@ -7880,12 +8170,15 @@ class App {
         // Step 4: Initialize the main UI manager.
         this.uiManager = new UIManager({
             appElement: document.getElementById(DOM_IDS.APP),
+
             eventAggregator,
             calculationService,
             rightPanelComponent,
+            leftPanelTabManager, // [NEW] Inject LeftPanelTabManager
             k1TabComponent, // [NEW] Inject K1 component
             k3TabComponent, // [NEW] Inject K3 component
             k4TabComponent, // [NEW] Inject K4 component
+
             k5TabComponent, // [NEW] Inject K5 component
             // [REMOVED]
         });
@@ -7902,6 +8195,7 @@ class App {
         this.inputHandler.initialize();
 
         eventAggregator.subscribe(EVENTS.APP_READY, () => {
+
             setTimeout(() => {
                 eventAggregator.publish(EVENTS.FOCUS_CELL, { rowIndex: 0, column: 'width' });
             }, 100);
@@ -8724,6 +9018,11 @@ export const paths = {
             html: './04-core-code/ui/tabs/k1-tab/k1-tab.html',
             css: './04-core-code/ui/tabs/k1-tab/k1-tab.css'
         },
+        // [NEW] Add paths for K2
+        k2: {
+            html: './04-core-code/ui/tabs/k2-tab/k2-tab.html',
+            css: './04-core-code/ui/tabs/k2-tab/k2-tab.css'
+        },
         k3: {
             html: './04-core-code/ui/tabs/k3-tab/k3-tab.html',
             css: './04-core-code/ui/tabs/k3-tab/k3-tab.css'
@@ -8739,7 +9038,7 @@ export const paths = {
         }
     },
     data: {
-         priceMatrix: './03-data-models/price-matrix-v1.0.json'
+        priceMatrix: './03-data-models/price-matrix-v1.0.json'
     }
 };
 --- FILE END ---
@@ -11369,13 +11668,11 @@ export class DialogComponent {
 --- FILE START: 04-core-code/ui/input-handler.js ---
 // File: 04-core-code/ui/input-handler.js
 
-import { LeftPanelInputHandler } from './left-panel-input-handler.js';
 import { EVENTS, DOM_IDS } from '../config/constants.js';
 
 export class InputHandler {
     constructor(eventAggregator) {
         this.eventAggregator = eventAggregator;
-        this.leftPanelHandler = new LeftPanelInputHandler(eventAggregator);
         this.longPressTimer = null;
         this.pressThreshold = 500; // 500ms for a long press
         this.isLongPress = false;
@@ -11388,8 +11685,6 @@ export class InputHandler {
         this._setupPanelToggles();
         this._setupFileLoader();
         this._setupPhysicalKeyboard();
-        
-        this.leftPanelHandler.initialize();
     }
 
     _setupPhysicalKeyboard() {
@@ -11399,20 +11694,23 @@ export class InputHandler {
             if (event.target.matches('input:not([readonly]), textarea')) {
                 return;
             }
-            
+
             let keyToPublish = null;
             let eventToPublish = EVENTS.NUMERIC_KEY_PRESSED;
             const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
             if (arrowKeys.includes(event.key)) {
                 event.preventDefault();
                 const direction = event.key.replace('Arrow', '').toLowerCase();
                 this.eventAggregator.publish(EVENTS.USER_MOVED_ACTIVE_CELL, { direction });
                 return;
+
             }
             if (event.key >= '0' && event.key <= '9') {
                 keyToPublish = event.key;
-            } 
+            }
             // [FIX] Add a check to ensure event.key is not null or undefined before calling .toLowerCase()
+
             else if (event.key) {
                 switch (event.key.toLowerCase()) {
                     case 'w': keyToPublish = 'W'; break;
@@ -11421,7 +11719,8 @@ export class InputHandler {
                     case '$': this.eventAggregator.publish(EVENTS.USER_REQUESTED_CALCULATE_AND_SUM); return;
                     case 'enter': keyToPublish = 'ENT'; event.preventDefault(); break;
                     case 'backspace': keyToPublish = 'DEL'; event.preventDefault(); break;
-                    case 'delete': eventToPublish = EVENTS.USER_REQUESTED_CLEAR_ROW; break;
+                    case
+                        'delete': eventToPublish = EVENTS.USER_REQUESTED_CLEAR_ROW; break;
                 }
             }
             if (keyToPublish !== null) {
@@ -11429,6 +11728,7 @@ export class InputHandler {
             } else if (eventToPublish === EVENTS.USER_REQUESTED_CLEAR_ROW) {
                 this.eventAggregator.publish(eventToPublish);
             }
+
         });
     }
 
@@ -11438,14 +11738,17 @@ export class InputHandler {
             fileLoader.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (!file) { return; }
+
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const content = e.target.result;
                     this.eventAggregator.publish(EVENTS.FILE_LOADED, { fileName: file.name, content: content });
+
                 };
                 reader.onerror = () => {
                     this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: `Error reading file: ${reader.error}`, type: 'error' });
                 };
+
                 reader.readAsText(file);
                 event.target.value = '';
             });
@@ -11453,10 +11756,11 @@ export class InputHandler {
         this.eventAggregator.subscribe(EVENTS.TRIGGER_FILE_LOAD, () => {
             if (fileLoader) {
                 fileLoader.click();
+
             }
         });
     }
-    
+
     _setupPanelToggles() {
         const numericToggle = document.getElementById(DOM_IDS.PANEL_TOGGLE);
         if (numericToggle) {
@@ -11466,12 +11770,14 @@ export class InputHandler {
         }
     }
 
+
     _setupFunctionKeys() {
         const setupButton = (id, eventName) => {
             const button = document.getElementById(id);
             if (button) {
                 button.addEventListener('click', () => {
                     this.eventAggregator.publish(eventName);
+
                 });
             }
         };
@@ -11480,18 +11786,20 @@ export class InputHandler {
         setupButton('key-reset', EVENTS.USER_REQUESTED_RESET);
         setupButton(DOM_IDS.KEY_M_SET, EVENTS.USER_REQUESTED_MULTI_TYPE_SET);
     }
-    
+
     _setupNumericKeyboard() {
         const keyboard = document.getElementById(DOM_IDS.NUMERIC_KEYBOARD);
         if (!keyboard) return;
 
         const addLongPressSupport = (button, longPressEventName, clickEventName, data = {}) => {
+
             const startPress = (e) => {
                 e.preventDefault();
                 this.isLongPress = false;
                 this.longPressTimer = setTimeout(() => {
                     this.isLongPress = true;
                     this.eventAggregator.publish(longPressEventName, data);
+
                 }, this.pressThreshold);
             };
 
@@ -11506,15 +11814,17 @@ export class InputHandler {
             button.addEventListener('touchstart', startPress, { passive: false });
             button.addEventListener('mouseup', endPress);
             button.addEventListener('mouseleave', () => clearTimeout(this.longPressTimer));
-            button.addEventListener('touchend', endPress);
+            button.addEventListener('touchend',
+                endPress);
         };
-        
+
         const addButtonListener = (id, eventName, data = {}) => {
             const button = document.getElementById(id);
-            if(button) {
+            if (button) {
                 if (id === 'key-type') {
                     addLongPressSupport(button, EVENTS.TYPE_BUTTON_LONG_PRESSED, EVENTS.USER_REQUESTED_CYCLE_TYPE, data);
                 } else {
+
                     button.addEventListener('click', () => {
                         this.eventAggregator.publish(eventName, data);
                     });
@@ -11523,6 +11833,7 @@ export class InputHandler {
         };
 
         // Main grid keys
+
         addButtonListener('key-7', EVENTS.NUMERIC_KEY_PRESSED, { key: '7' });
         addButtonListener('key-8', EVENTS.NUMERIC_KEY_PRESSED, { key: '8' });
         addButtonListener('key-9', EVENTS.NUMERIC_KEY_PRESSED, { key: '9' });
@@ -11533,10 +11844,11 @@ export class InputHandler {
         addButtonListener('key-2', EVENTS.NUMERIC_KEY_PRESSED, { key: '2' });
         addButtonListener('key-3', EVENTS.NUMERIC_KEY_PRESSED, { key: '3' });
         addButtonListener('key-0', EVENTS.NUMERIC_KEY_PRESSED, { key: '0' });
-        
+
         // Function keys within the grid
         addButtonListener('key-w', EVENTS.NUMERIC_KEY_PRESSED, { key: 'W' });
-        addButtonListener('key-h', EVENTS.NUMERIC_KEY_PRESSED, { key: 'H' });
+        addButtonListener('key-h',
+            EVENTS.NUMERIC_KEY_PRESSED, { key: 'H' });
         addButtonListener('key-price', EVENTS.USER_REQUESTED_CALCULATE_AND_SUM);
         addButtonListener('key-type', EVENTS.USER_REQUESTED_CYCLE_TYPE);
         addButtonListener('key-del', EVENTS.NUMERIC_KEY_PRESSED, { key: 'DEL' });
@@ -11551,42 +11863,46 @@ export class InputHandler {
         if (table) {
             const startPress = (e) => {
                 const target = e.target;
-                if (target.tagName === 'TD' && target.dataset.column === 'TYPE') {
+                if (target.tagName === 'TD'
+                    && target.dataset.column === 'TYPE') {
                     this.isLongPress = false;
                     this.longPressTimer = setTimeout(() => {
                         this.isLongPress = true;
                         const rowIndex = target.parentElement.dataset.rowIndex;
+
                         this.eventAggregator.publish(EVENTS.TYPE_CELL_LONG_PRESSED, { rowIndex: parseInt(rowIndex, 10) });
                     }, this.pressThreshold);
                 }
             };
-            
+
             const endPress = (e) => {
                 clearTimeout(this.longPressTimer);
-
                 if (!this.isLongPress) {
                     const target = e.target;
                     if (target.tagName === 'TD') {
                         const column = target.dataset.column;
                         const rowIndex = target.parentElement.dataset.rowIndex;
                         if (column && rowIndex) {
+
                             const eventData = { rowIndex: parseInt(rowIndex, 10), column };
                             if (column === 'sequence') {
                                 this.eventAggregator.publish(EVENTS.SEQUENCE_CELL_CLICKED, eventData);
                             } else {
+
                                 this.eventAggregator.publish(EVENTS.TABLE_CELL_CLICKED, eventData);
                             }
                         }
                     }
                 }
-                this.isLongPress = false;
+                this.isLongPress =
+                    false;
             };
 
             table.addEventListener('mousedown', startPress);
             table.addEventListener('touchstart', startPress, { passive: false });
-            
+
             table.addEventListener('mouseup', endPress);
-            
+
             table.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 endPress(e);
@@ -11594,49 +11910,93 @@ export class InputHandler {
 
             table.addEventListener('mouseleave', () => {
                 clearTimeout(this.longPressTimer);
+
             }, true);
         }
     }
 }
 --- FILE END ---
 
---- FILE START: 04-core-code/ui/left-panel-component.js ---
-// File: 04-core-code/ui/left-panel-component.js
+--- FILE START: 04-core-code/ui/left-panel-tab-manager.js ---
+// File: 04-core-code/ui/left-panel-tab-manager.js
+// [NEW] This file combines the remaining logic from left-panel-component.js
+// and left-panel-input-handler.js, using the correct kebab-case filename.
 
-import { DOM_IDS } from '../config/constants.js';
+import { DOM_IDS, EVENTS } from '../config/constants.js';
 
 /**
- * @fileoverview A dedicated component for managing and rendering the Left Panel UI.
+ * @fileoverview A dedicated component for managing the Left Panel's
+ * tab switching (UI state) and navigation toggle (Input).
  */
-export class LeftPanelComponent {
-    constructor(panelElement) {
-        if (!panelElement) {
-            throw new Error("Panel element is required for LeftPanelComponent.");
+export class LeftPanelTabManager {
+    constructor(panelElement, eventAggregator) {
+        if (!panelElement || !eventAggregator) {
+            throw new Error("Panel element and event aggregator are required for LeftPanelTabManager.");
         }
         this.panelElement = panelElement;
+        this.eventAggregator = eventAggregator;
         this.panelToggle = document.getElementById(DOM_IDS.LEFT_PANEL_TOGGLE);
 
-        // Cache all DOM elements in the constructor.
-        // [REMOVED] K1 DOM Caching moved to K1TabComponent
-        this.fabricColorButton = document.getElementById('btn-focus-fabric');
-        this.lfButton = document.getElementById('btn-light-filter');
-        this.lfDelButton = document.getElementById('btn-lf-del');
-        // [NEW] Cache the SSet button
-         this.k2SSetButton = document.getElementById('btn-k2-sset');
-        // [REMOVED] K3 DOM Caching moved to K3TabComponent
-        // [REMOVED] K4 DOM Caching moved to K4TabComponent
-        // [REMOVED] K5 DOM Caching moved to K5TabComponent
+        // Cache tab elements (from left-panel-component)
         this.tabButtons = this.panelElement.querySelectorAll('.tab-button');
         this.tabContents = this.panelElement.querySelectorAll('.tab-content');
-        
-        console.log("LeftPanelComponent Initialized.");
+
+        console.log("LeftPanelTabManager Initialized.");
     }
 
-    render(uiState, quoteData) {
+    /**
+     * Initializes the input handlers for the panel.
+     * (Logic from left-panel-input-handler.js)
+     */
+    initialize() {
+        this._setupNavigationToggle();
+        this._setupTabButtons();
+    }
+
+    /**
+     * Sets up the listener for the main navigation toggle (handle).
+     * (Logic from left-panel-input-handler.js)
+     */
+    _setupNavigationToggle() {
+        const leftPanelToggle = document.getElementById(DOM_IDS.LEFT_PANEL_TOGGLE);
+        if (leftPanelToggle) {
+            leftPanelToggle.addEventListener('click', () => {
+                this.eventAggregator.publish(EVENTS.USER_NAVIGATED_TO_DETAIL_VIEW);
+            });
+        }
+    }
+
+    /**
+     * Sets up the listener for the tab buttons (K1-K5).
+     * (Logic from left-panel-input-handler.js)
+     */
+    _setupTabButtons() {
+        const tabContainer = document.querySelector('#left-panel .tab-container');
+        if (tabContainer) {
+            tabContainer.addEventListener('click', (event) => {
+                const target = event.target.closest('.tab-button');
+                if (target && !target.disabled) {
+                    this.eventAggregator.publish(EVENTS.USER_SWITCHED_TAB, { tabId: target.id });
+                }
+            });
+        }
+    }
+
+    /**
+     * Renders the UI state of the tabs (e.g., active tab, background color).
+     * (Logic from left-panel-component.js)
+     */
+    render(uiState) {
+        // This component is now only responsible for the tab states.
+        // The _updatePanelButtonStates method (which contained K2 logic)
+        // has been intentionally removed.
         this._updateTabStates(uiState);
-        this._updatePanelButtonStates(uiState, quoteData);
     }
 
+    /**
+     * Updates the active state of tabs and panel background color.
+     * (Logic from left-panel-component.js)
+     */
     _updateTabStates(uiState) {
         const { activeEditMode, activeTabId, dualChainMode, driveAccessoryMode } = uiState;
         const isInEditMode = activeEditMode !== null || dualChainMode !== null || driveAccessoryMode !== null;
@@ -11658,7 +12018,7 @@ export class LeftPanelComponent {
             const isThisContentActive = activeContentTarget && `#${content.id}` === activeContentTarget;
             content.classList.toggle('active', isThisContentActive);
         });
-        
+
         const panelBgColors = {
             'k1-tab': 'var(--k1-bg-color)',
             'k2-tab': 'var(--k2-bg-color)',
@@ -11668,177 +12028,6 @@ export class LeftPanelComponent {
         };
         this.panelElement.style.backgroundColor = panelBgColors[activeTabId] || 'var(--k1-bg-color)';
     }
-
-    _updatePanelButtonStates(uiState, quoteData) {
-        const { 
-            activeEditMode, locationInputValue,
-            dualChainMode, targetCell, dualChainInputValue,
-            driveAccessoryMode, driveRemoteCount, driveChargerCount, driveCordCount,
-            driveWinderTotalPrice, driveMotorTotalPrice, driveRemoteTotalPrice, driveChargerTotalPrice, driveCordTotalPrice,
-            driveGrandTotal,
-            summaryWinderPrice, summaryMotorPrice,
-            summaryRemotePrice, summaryChargerPrice, summaryCordPrice, summaryAccessoriesTotal
-        } = uiState;
-
-        // [CORRECTED] Read lfModifiedRowIndexes from its new location in quoteData.uiMetadata.
-        const lfModifiedRowIndexes = quoteData.uiMetadata?.lfModifiedRowIndexes || [];
-        
-        const currentProductKey = quoteData.currentProduct;
-        const productData = quoteData.products[currentProductKey];
-        const items = productData.items;
-        const accessoriesSummary = productData.summary.accessories || {};
-
-        // --- K1 Location Input State ---
-        // [REMOVED] K1 rendering logic moved to K1TabComponent
-        
-        // [MODIFIED] Implement strict mutual exclusion for K2 buttons
-        const isFCMode = activeEditMode === 'K2';
-        const isLFSelectMode = activeEditMode === 'K2_LF_SELECT';
-        const isLFDeleteMode = activeEditMode === 'K2_LF_DELETE_SELECT';
-        const isSSetMode = activeEditMode === 'K2_SSET_SELECT';
-        const isAnyK2ModeActive = isFCMode || isLFSelectMode || isLFDeleteMode || isSSetMode;
-
-        // [REMOVED] K1 button logic moved to K1TabComponent
-        
-        if (this.fabricColorButton) {
-            this.fabricColorButton.classList.toggle('active', isFCMode);
-            this.fabricColorButton.disabled = isAnyK2ModeActive && !isFCMode;
-        }
-        if (this.lfButton) {
-            this.lfButton.classList.toggle('active', isLFSelectMode);
-            this.lfButton.disabled = isAnyK2ModeActive && !isLFSelectMode;
-        }
-         if (this.lfDelButton) {
-            const hasLFModified = lfModifiedRowIndexes.length > 0;
-            this.lfDelButton.classList.toggle('active', isLFDeleteMode);
-            // Button is disabled if ANY K2 mode is active (and it's not this one), OR if no LF-modified rows exist
-            this.lfDelButton.disabled = (isAnyK2ModeActive && !isLFDeleteMode) || !hasLFModified;
-        }
-        if (this.k2SSetButton) {
-             this.k2SSetButton.classList.toggle('active', isSSetMode);
-            this.k2SSetButton.disabled = isAnyK2ModeActive && !isSSetMode;
-        }
-
-        // --- K3 Button Active/Disabled States ---
-        // [REMOVED] K3 rendering logic moved to K3TabComponent
-
-        const formatPrice = (price) => (typeof price === 'number') ? `$${price.toFixed(0)}` : '';
-
-        // --- K4 (Drive/Accessories) States ---
-        // [REMOVED] K4 rendering logic moved to K4TabComponent
-
-        // --- K5 (Dual/Chain & Summary) States ---
-        // [REMOVED] K5 rendering logic moved to K5TabComponent
-    }
-}
---- FILE END ---
-
---- FILE START: 04-core-code/ui/left-panel-input-handler.js ---
-// File: 04-core-code/ui/left-panel-input-handler.js
-
-import { EVENTS, DOM_IDS } from '../config/constants.js';
-
-/**
- * @fileoverview A dedicated input handler for all user interactions within the Left Panel.
- */
-export class LeftPanelInputHandler {
-    constructor(eventAggregator) {
-         this.eventAggregator = eventAggregator;
-        console.log("LeftPanelInputHandler Initialized.");
-    }
-
-    initialize() {
-        this._setupNavigationToggle();
-        this._setupTabButtons();
-        // [REMOVED] _setupK1Inputs() call moved to K1TabInputHandler
-        this._setupK2Inputs();
-        // [REMOVED] _setupK3Inputs() call moved to K3TabInputHandler
-        // [REMOVED] _setupK4Inputs() (K5 logic) call moved to K5TabInputHandler
-        // [REMOVED] _setupK5Inputs() (K4 logic) call moved to K4TabInputHandler
-    }
-
-    _setupNavigationToggle() {
-        const leftPanelToggle = document.getElementById(DOM_IDS.LEFT_PANEL_TOGGLE);
-        if (leftPanelToggle) {
-            leftPanelToggle.addEventListener('click', () => {
-                this.eventAggregator.publish(EVENTS.USER_NAVIGATED_TO_DETAIL_VIEW);
-             });
-        }
-    }
-
-    _setupTabButtons() {
-        const tabContainer = document.querySelector('#left-panel .tab-container');
-        if (tabContainer) {
-            tabContainer.addEventListener('click', (event) => {
-                const target = event.target.closest('.tab-button');
-                if (target && !target.disabled) {
-                     this.eventAggregator.publish(EVENTS.USER_SWITCHED_TAB, { tabId: target.id });
-                }
-            });
-        }
-    }
-
-    // [REMOVED] _setupK1Inputs() method has been cut and moved to K1TabInputHandler.
-
-    _setupK2Inputs() {
-        const fabricButton = document.getElementById('btn-focus-fabric');
-        if (fabricButton) {
-             fabricButton.addEventListener('click', () => {
-                 this.eventAggregator.publish(EVENTS.USER_REQUESTED_FOCUS_MODE, { column: 'fabric' });
-            });
-        }
-        const lfButton = document.getElementById('btn-light-filter');
-        if (lfButton) {
-            lfButton.addEventListener('click', () => {
-                this.eventAggregator.publish(EVENTS.USER_REQUESTED_LF_EDIT_MODE);
-            });
-        }
-         const lfDelButton = document.getElementById('btn-lf-del');
-        if (lfDelButton) {
-            lfDelButton.addEventListener('click', () => {
-                this.eventAggregator.publish(EVENTS.USER_REQUESTED_LF_DELETE_MODE);
-            });
-        }
-
-        // [NEW] Add listener for SSet button
-        const sSetButton = document.getElementById('btn-k2-sset');
-        if (sSetButton) {
-             sSetButton.addEventListener('click', () => {
-                this.eventAggregator.publish(EVENTS.USER_REQUESTED_SSET_MODE);
-            });
-        }
-
-
-        const batchTable = document.getElementById(DOM_IDS.FABRIC_BATCH_TABLE);
-        if (batchTable) {
-            batchTable.addEventListener('keydown', (event) => {
-                 if (event.key === 'Enter' && event.target.matches('.panel-input')) {
-                    event.preventDefault();
-                    const input = event.target;
-                    this.eventAggregator.publish(EVENTS.PANEL_INPUT_ENTER_PRESSED, {
-                         type: input.dataset.type,
-                        field: input.dataset.field,
-                        value: input.value
-                     });
-                }
-            });
-            batchTable.addEventListener('blur', (event) => {
-                if (event.target.matches('.panel-input')) {
-                    this.eventAggregator.publish(EVENTS.PANEL_INPUT_BLURRED, {
-                         type: event.target.dataset.type,
-                        field: event.target.dataset.field,
-                        value: event.target.value
-                    });
-                 }
-            }, true);
-        }
-    }
-
-    // [REMOVED] _setupK3Inputs() method has been cut and moved to K3TabInputHandler.
-
-    // [REMOVED] _setupK4Inputs() method (K5 logic) has been cut and moved to K5TabInputHandler.
-
-    // [REMOVED] _setupK5Inputs() method (K4 logic) has been cut and moved to K4TabInputHandler.
 }
 --- FILE END ---
 
@@ -12287,17 +12476,18 @@ import { SummaryComponent } from './summary-component.js';
 import { PanelComponent } from './panel-component.js';
 import { NotificationComponent } from './notification-component.js';
 import { DialogComponent } from './dialog-component.js';
-import { LeftPanelComponent } from './left-panel-component.js';
+// [REMOVED]
 import { EVENTS, DOM_IDS } from '../config/constants.js';
-// [NEW] Import K1 component (path will be defined in main.js or similar)
-// Note: We don't import K1TabComponent here directly, as it's injected by the App class.
+// [NEW] Import LeftPanelTabManager
+import { LeftPanelTabManager } from './left-panel-tab-manager.js';
 
 export class UIManager {
-    constructor({ appElement, eventAggregator, calculationService, rightPanelComponent, k1TabComponent, k3TabComponent, k4TabComponent, k5TabComponent }) { // [NEW] Add k1/k3/k4/k5TabComponent
+    constructor({ appElement, eventAggregator, calculationService, rightPanelComponent, leftPanelTabManager, k1TabComponent, k3TabComponent, k4TabComponent, k5TabComponent }) { // [MODIFIED]
         this.appElement = appElement;
         this.eventAggregator = eventAggregator;
         this.calculationService = calculationService;
         this.rightPanelComponent = rightPanelComponent; // [MODIFIED] Receive instance
+        this.leftPanelTabManager = leftPanelTabManager; // [NEW] Store instance
         this.k1TabComponent = k1TabComponent; // [NEW] Store instance
         this.k3TabComponent = k3TabComponent; // [NEW] Store instance
         this.k4TabComponent = k4TabComponent; // [NEW] Store instance
@@ -12313,10 +12503,12 @@ export class UIManager {
         const tableElement = document.getElementById(DOM_IDS.RESULTS_TABLE);
         this.tableComponent = new TableComponent(tableElement);
 
-        const summaryElement = document.getElementById(DOM_IDS.TOTAL_SUM_VALUE);
+        const summaryElement =
+            document.getElementById(DOM_IDS.TOTAL_SUM_VALUE);
         this.summaryComponent = new SummaryComponent(summaryElement);
 
-        this.leftPanelComponent = new LeftPanelComponent(this.leftPanelElement);
+        // [REMOVED]
+        // this.leftPanelComponent = new LeftPanelComponent(this.leftPanelElement);
 
         this.functionPanel = new PanelComponent({
             panelElement: document.getElementById(DOM_IDS.FUNCTION_PANEL),
@@ -12324,11 +12516,13 @@ export class UIManager {
             eventAggregator: this.eventAggregator,
             expandedClass: 'is-expanded',
             retractEventName: EVENTS.OPERATION_SUCCESSFUL_AUTO_HIDE_PANEL,
+
             // [NEW] Add onToggle callback to default to F1 tab when opened.
             onToggle: (isExpanded) => {
                 if (isExpanded) {
                     this.rightPanelComponent.setActiveTab('f1-tab');
                 }
+
             }
         });
 
@@ -12341,6 +12535,7 @@ export class UIManager {
 
         this.dialogComponent = new DialogComponent({
             overlayElement: document.getElementById(DOM_IDS.CONFIRMATION_DIALOG_OVERLAY),
+
             eventAggregator: this.eventAggregator
         });
 
@@ -12354,10 +12549,12 @@ export class UIManager {
         this.eventAggregator.subscribe(EVENTS.FOCUS_ELEMENT, ({ elementId }) => {
             const element = document.getElementById(elementId);
             if (element) {
+
                 setTimeout(() => {
                     element.focus();
                     if (typeof element.select === 'function') {
                         element.select();
+
                     }
                 }, 50); // A small delay to ensure the element is rendered and focusable.
             }
@@ -12382,7 +12579,8 @@ export class UIManager {
         const key0 = this.numericKeyboardPanel.querySelector('#key-0');
         const typeKey = this.numericKeyboardPanel.querySelector('#key-type');
 
-        if (!key7 || !key0 || !typeKey) {
+        if (!key7
+            || !key0 || !typeKey) {
             console.error("One or more reference elements for panel positioning are missing.");
             return;
         }
@@ -12403,6 +12601,7 @@ export class UIManager {
     }
 
     render(state) {
+
         const isDetailView = state.ui.currentView === 'DETAIL_CONFIG';
         this.appElement.classList.toggle('detail-view-active', isDetailView);
 
@@ -12411,22 +12610,26 @@ export class UIManager {
 
         this.tableComponent.render(state);
         this.summaryComponent.render(currentProductData.summary, state.ui.isSumOutdated);
-        
+
+        // [MODIFIED] Delegate tab/panel rendering to the new LeftPanelTabManager
+        this.leftPanelTabManager.render(state.ui);
+
         // [MODIFIED] Delegate K1/K3/K4/K5 rendering to their own components
-        this.leftPanelComponent.render(state.ui, state.quoteData); // Still renders K2
-        if (this.k1TabComponent) { 
+        if (this.k1TabComponent) {
             this.k1TabComponent.render(state.ui); // Renders K1
         }
-        if (this.k3TabComponent) { 
+
+        if (this.k3TabComponent) {
             this.k3TabComponent.render(state.ui); // Renders K3
         }
         if (this.k4TabComponent) { // [NEW] Check and render K4
             this.k4TabComponent.render(state.ui);
         }
-        if (this.k5TabComponent) { 
+        if (this.k5TabComponent) {
             this.k5TabComponent.render(state.ui, state.quoteData); // Renders K5
+
         }
-        
+
         this.rightPanelComponent.render(state);
 
         this._updateButtonStates(state);
@@ -12442,6 +12645,7 @@ export class UIManager {
             if (isExpanded) {
                 setTimeout(() => this._updateExpandedPanelPosition(), 0);
             }
+
         }
     }
 
@@ -12457,7 +12661,8 @@ export class UIManager {
         let insertDisabled = true;
         if (isSingleSelection) {
             const selectedIndex = multiSelectSelectedIndexes[0];
-            const isLastRow = selectedIndex === items.length - 1;
+            const isLastRow =
+                selectedIndex === items.length - 1;
             if (!isLastRow) {
                 const nextItem = items[selectedIndex + 1];
                 const isNextRowEmpty = !nextItem.width && !nextItem.height && !nextItem.fabricType;
@@ -12466,6 +12671,7 @@ export class UIManager {
                 }
             }
         }
+
         if (this.insertButton) this.insertButton.disabled = insertDisabled;
 
         // --- Clear Button Logic ---
@@ -12474,6 +12680,7 @@ export class UIManager {
             const selectedIndex = multiSelectSelectedIndexes[0];
             const itemsLength = items.length;
             // Also disable if it's the last data row or the final empty row
+
             if (selectedIndex >= itemsLength - 2) {
                 clearDisabled = true;
             }
@@ -12486,6 +12693,7 @@ export class UIManager {
         const { rowIndex, column } = state.ui.activeCell;
         const activeCellElement = document.querySelector(`tr[data-row-index="${rowIndex}"] td[data-column="${column}"]`);
         if (activeCellElement) {
+
             activeCellElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
@@ -13976,21 +14184,24 @@ margin: 0;
     --k4-bg-color: hsl(220, 15%, 81%);
     --k5-bg-color: hsl(220, 15%, 76%);
 }
+
 #left-panel {
     position: fixed;
     left: 0;
     background-color: var(--k1-bg-color);
     border: 1px solid var(--panel-border-color);
     border-left: none;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     z-index: 100;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     padding: 0;
     transform: translateX(-100%);
 }
+
 #left-panel.is-expanded {
     transform: translateX(0);
 }
@@ -13999,7 +14210,7 @@ margin: 0;
 #left-panel-toggle {
     position: fixed;
     /* Move down from vertical center by the handle's own height (80px) */
-    top: calc(50% + 80px); 
+    top: calc(50% + 80px);
     left: 0;
     transform: translateY(-50%);
     width: 24px;
@@ -14022,35 +14233,58 @@ margin: 0;
     width: 20px;
     height: 20px;
     transition: opacity 0.3s ease-in-out;
-    position: absolute; /* Both arrows overlay each other */
+    position: absolute;
+    /* Both arrows overlay each other */
 }
 
 #left-panel-toggle .arrow-right {
-    opacity: 1; /* Visible by default */
+    opacity: 1;
+    /* Visible by default */
 }
 
 #left-panel-toggle .arrow-left {
-    opacity: 0; /* Hidden by default */
+    opacity: 0;
+    /* Hidden by default */
 }
 
 /* When panel is expanded, flip the arrow's visibility */
-#left-panel.is-expanded ~ #left-panel-toggle .arrow-right {
+#left-panel.is-expanded~#left-panel-toggle .arrow-right {
     opacity: 0;
 }
 
-#left-panel.is-expanded ~ #left-panel-toggle .arrow-left {
+#left-panel.is-expanded~#left-panel-toggle .arrow-left {
     opacity: 1;
 }
 
 
-.tab-container { display: flex; flex-shrink: 0; background-color: #d1d5db; }
-.tab-button {
-    height: 30px; flex-grow: 1; border: none; background-color: transparent; cursor: pointer;
-    font-size: 0.9em; font-weight: bold; color: #4b5563; transition: background-color 0.2s, color 0.2s;
-    border-radius: 6px 6px 0 0; border-bottom: 3px solid transparent;
+.tab-container {
+    display: flex;
+    flex-shrink: 0;
+    background-color: #d1d5db;
 }
-.tab-button:hover { background-color: #e5e7eb; }
-.tab-button.active { color: white; }
+
+.tab-button {
+    height: 30px;
+    flex-grow: 1;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #4b5563;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+    background-color: #e5e7eb;
+}
+
+.tab-button.active {
+    color: white;
+}
+
 .tab-button:disabled {
     background-color: #6c757d !important;
     color: #e9ecef !important;
@@ -14058,18 +14292,69 @@ margin: 0;
     opacity: 0.7;
 }
 
-#k1-tab.active { background-color: var(--k1-bg-color); border-color: var(--tab-active-color); color: var(--tab-active-color); }
-#k2-tab.active { background-color: var(--k2-bg-color); border-color: var(--tab-active-color); color: var(--tab-active-color);}
-#k3-tab.active { background-color: var(--k3-bg-color); border-color: var(--tab-active-color); color: #2c3e50; }
-#k4-tab.active { background-color: var(--k4-bg-color); border-color: var(--tab-active-color); color: #2c3e50; }
-#k5-tab.active { background-color: var(--k5-bg-color); border-color: var(--tab-active-color); color: #2c3e50; }
+#k1-tab.active {
+    background-color: var(--k1-bg-color);
+    border-color: var(--tab-active-color);
+    color: var(--tab-active-color);
+}
 
-.tab-content-container { flex-grow: 1; padding: 15px; overflow-y: auto; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-#k1-content { background-color: var(--k1-bg-color); } #k2-content { background-color: var(--k2-bg-color); }
-#k3-content { background-color: var(--k3-bg-color); } #k4-content { background-color: var(--k4-bg-color); }
-#k5-content { background-color: var(--k5-bg-color); }
+#k2-tab.active {
+    background-color: var(--k2-bg-color);
+    border-color: var(--tab-active-color);
+    color: var(--tab-active-color);
+}
+
+#k3-tab.active {
+    background-color: var(--k3-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+#k4-tab.active {
+    background-color: var(--k4-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+#k5-tab.active {
+    background-color: var(--k5-bg-color);
+    border-color: var(--tab-active-color);
+    color: #2c3e50;
+}
+
+.tab-content-container {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#k1-content {
+    background-color: var(--k1-bg-color);
+}
+
+#k2-content {
+    background-color: var(--k2-bg-color);
+}
+
+#k3-content {
+    background-color: var(--k3-bg-color);
+}
+
+#k4-content {
+    background-color: var(--k4-bg-color);
+}
+
+#k5-content {
+    background-color: var(--k5-bg-color);
+}
 
 /* --- Left Panel Feature Styles --- */
 .feature-grid {
@@ -14077,55 +14362,74 @@ margin: 0;
     flex-direction: column;
     gap: 15px;
 }
+
 .feature-group {}
+
 .feature-label {
-    display: block; font-size: 0.8em; font-weight: bold; color: #4b5563;
-    margin-bottom: 5px; text-transform: uppercase;
+    display: block;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #4b5563;
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }
+
 .feature-buttons {
-    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
 }
+
 .feature-button {
-    padding: 8px 12px; font-size: 0.9em; cursor: pointer; border-radius: 4px;
-    border: 1px solid #b0b8c4; background-color: #fff; font-weight: 500;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #b0b8c4;
+    background-color: #fff;
+    font-weight: 500;
     transition: background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
     flex-grow: 1;
 }
+
 .feature-button.active {
-    background-color: var(--highlight-color); font-weight: bold;
+    background-color: var(--highlight-color);
+    font-weight: bold;
 }
-.feature-button.active:hover { background-color: var(--highlight-color); }
+
+.feature-button.active:hover {
+    background-color: var(--highlight-color);
+}
+
 .feature-button:disabled {
-    background-color: #6c757d; border-color: #5a6268; color: white;
-    cursor: not-allowed; opacity: 0.7;
+    background-color: #6c757d;
+    border-color: #5a6268;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
-.feature-button:hover { background-color: #f0f2f5; }
+
+.feature-button:hover {
+    background-color: #f0f2f5;
+}
+
 .feature-button:active {
-    background-color: #e5e7eb; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: #e5e7eb;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-.batch-button { background-color: #e0f2fe; border-color: #7dd3fc; }
-.batch-button:hover { background-color: #bae6fd; }
 
-/* --- Panel Input Table Styles --- */
-.panel-input-table {
-    width: 100%; border-collapse: collapse; margin-top: 10px;
+.batch-button {
+    background-color: #e0f2fe;
+    border-color: #7dd3fc;
 }
-.panel-input-table th, .panel-input-table td {
-    border: 1px solid #b0b8c4; padding: 4px 6px; font-size: 0.9em; text-align: center;
-}
-.panel-input-table th { background-color: #e5e7eb; font-weight: bold; }
-.panel-input {
-    width: 100%; box-sizing: border-box; border: 1px solid #b0b8c4;
-    padding: 5px; border-radius: 3px; font-size: 1em;
-}
-/* [REMOVED] K1 styles (#location-input-box) moved to k1-tab.css */
-.panel-input:disabled { background-color: #e9ecef; cursor: not-allowed; }
 
-/* --- K2 Light-Filter Feature Styles --- */
-.results-table td.lf-selection-highlight { background-color: #fffacd; }
-.results-table td.is-lf-modified {
-    background-color: #ffccd5; box-shadow: inset 0 0 0 1px #e5a0aa;
+.batch-button:hover {
+    background-color: #bae6fd;
 }
+
+/* [REMOVED] K2 styles moved to k2-tab.css */
+/* [REMOVED] K2 styles moved to k2-tab.css */
 
 /* --- K5 Styles --- */
 /* [REMOVED] K5 styles moved to k5-tab.css */
@@ -14145,81 +14449,25 @@ margin: 0;
     </div>
     <div class="tab-content-container">
         <div id="k1-content" class="tab-content active">
-            </div>
+        </div>
         <div id="k2-content" class="tab-content">
-            <div class="feature-grid">
-                <div class="feature-group">
-                    <div class="feature-buttons">
-                        <button id="btn-focus-fabric" class="feature-button">N&C</button>
-                        <button id="btn-light-filter" class="feature-button">Light-Filter</button>
-                        <button id="btn-lf-del" class="feature-button">LF-Del</button>
-                        <button id="btn-k2-sset" class="feature-button">SSet</button>
-                    </div>
-                </div>
-                <div class="feature-group">
-                     <table class="panel-input-table" id="fabric-batch-table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>F-Name</th>
-                                <th>F-Color</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>B1</td>
-                                 <td><input type="text" data-type="B1" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="B1" data-field="color" class="panel-input"></td>
-                            </tr>
-                             <tr>
-                                <td>B2</td>
-                                <td><input type="text" data-type="B2" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="B2" data-field="color" class="panel-input"></td>
-                            </tr>
-                             <tr>
-                                <td>B3</td>
-                                <td><input type="text" data-type="B3" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="B3" data-field="color" class="panel-input"></td>
-                            </tr>
-                             <tr>
-                                <td>B4</td>
-                                <td><input type="text" data-type="B4" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="B4" data-field="color" class="panel-input"></td>
-                            </tr>
-                             <tr>
-                                <td>B5</td>
-                                <td><input type="text" data-type="B5" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="B5" data-field="color" class="panel-input"></td>
-                            </tr>
-                            <tr>
-                                 <td>SN</td>
-                                <td><input type="text" data-type="SN" data-field="fabric" class="panel-input"></td>
-                                 <td><input type="text" data-type="SN" data-field="color" class="panel-input"></td>
-                             </tr>
-                            <tr>
-                                 <td>LF</td>
-                                 <td><input type="text" data-type="LF" data-field="fabric" class="panel-input" disabled></td>
-                                 <td><input type="text" data-type="LF" data-field="color" class="panel-input" disabled></td>
-                             </tr>
-                        </tbody>
-                     </table>
-                </div>
-             </div>
         </div>
         <div id="k3-content" class="tab-content">
-            </div>
+        </div>
         <div id="k4-content" class="tab-content">
-            </div>
+        </div>
         <div id="k5-content" class="tab-content">
-             </div>
+        </div>
     </div>
 </div>
 
 <div id="left-panel-toggle" title="Toggle Left Panel">
-    <svg class="toggle-arrow arrow-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    <svg class="toggle-arrow arrow-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
     </svg>
-     <svg class="toggle-arrow arrow-left" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <svg class="toggle-arrow arrow-left" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
     </svg>
 </div>
@@ -15227,6 +15475,188 @@ export class K1TabInputHandler {
          </div>
     </div>
  </div>
+--- FILE END ---
+
+--- FILE START: 04-core-code/ui/tabs/k2-tab/k2-tab-input-handler.js ---
+// File: 04-core-code/ui/tabs/k2-tab/k2-tab-input-handler.js
+
+import { EVENTS, DOM_IDS } from '../../../config/constants.js';
+
+/**
+ * @fileoverview A dedicated input handler for all user interactions
+ * within the K2 (Fabric) tab.
+ */
+export class K2TabInputHandler {
+    constructor({ eventAggregator }) {
+        this.eventAggregator = eventAggregator;
+        console.log("K2TabInputHandler Initialized.");
+    }
+
+    initialize() {
+        // This logic was moved from LeftPanelInputHandler's _setupK2Inputs
+        const fabricButton = document.getElementById('btn-focus-fabric');
+        if (fabricButton) {
+            fabricButton.addEventListener('click', () => {
+                this.eventAggregator.publish(EVENTS.USER_REQUESTED_FOCUS_MODE, { column: 'fabric' });
+            });
+        }
+        const lfButton = document.getElementById('btn-light-filter');
+        if (lfButton) {
+            lfButton.addEventListener('click', () => {
+                this.eventAggregator.publish(EVENTS.USER_REQUESTED_LF_EDIT_MODE);
+            });
+        }
+        const lfDelButton = document.getElementById('btn-lf-del');
+        if (lfDelButton) {
+            lfDelButton.addEventListener('click', () => {
+                this.eventAggregator.publish(EVENTS.USER_REQUESTED_LF_DELETE_MODE);
+            });
+        }
+
+        // [NEW] Add listener for SSet button
+        const sSetButton = document.getElementById('btn-k2-sset');
+        if (sSetButton) {
+            sSetButton.addEventListener('click', () => {
+                this.eventAggregator.publish(EVENTS.USER_REQUESTED_SSET_MODE);
+            });
+        }
+
+
+        const batchTable = document.getElementById(DOM_IDS.FABRIC_BATCH_TABLE);
+        if (batchTable) {
+            batchTable.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && event.target.matches('.panel-input')) {
+                    event.preventDefault();
+                    const input = event.target;
+                    this.eventAggregator.publish(EVENTS.PANEL_INPUT_ENTER_PRESSED, {
+                        type: input.dataset.type,
+                        field: input.dataset.field,
+                        value: input.value
+                    });
+                }
+            });
+            batchTable.addEventListener('blur', (event) => {
+                if (event.target.matches('.panel-input')) {
+                    this.eventAggregator.publish(EVENTS.PANEL_INPUT_BLURRED, {
+                        type: event.target.dataset.type,
+                        field: event.target.dataset.field,
+                        value: event.target.value
+                    });
+                }
+            }, true);
+        }
+    }
+}
+--- FILE END ---
+
+--- FILE START: 04-core-code/ui/tabs/k2-tab/k2-tab.css ---
+/* File: 04-core-code/ui/tabs/k2-tab/k2-tab.css */
+
+/* K2 (Fabric) specific styles moved from left-panel.css */
+
+.panel-input-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.panel-input-table th,
+.panel-input-table td {
+    border: 1px solid #b0b8c4;
+    padding: 4px 6px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.panel-input-table th {
+    background-color: #e5e7eb;
+    font-weight: bold;
+}
+
+.panel-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #b0b8c4;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 1em;
+}
+
+.panel-input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* --- K2 Light-Filter Feature Styles --- */
+.results-table td.lf-selection-highlight {
+    background-color: #fffacd;
+}
+
+.results-table td.is-lf-modified {
+    background-color: #ffccd5;
+    box-shadow: inset 0 0 0 1px #e5a0aa;
+}
+--- FILE END ---
+
+--- FILE START: 04-core-code/ui/tabs/k2-tab/k2-tab.html ---
+<div class="feature-grid">
+    <div class="feature-group">
+        <div class="feature-buttons">
+            <button id="btn-focus-fabric" class="feature-button">N&C</button>
+            <button id="btn-light-filter" class="feature-button">Light-Filter</button>
+            <button id="btn-lf-del" class="feature-button">LF-Del</button>
+            <button id="btn-k2-sset" class="feature-button">SSet</button>
+        </div>
+    </div>
+    <div class="feature-group">
+        <table class="panel-input-table" id="fabric-batch-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>F-Name</th>
+                    <th>F-Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>B1</td>
+                    <td><input type="text" data-type="B1" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="B1" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>B2</td>
+                    <td><input type="text" data-type="B2" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="B2" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>B3</td>
+                    <td><input type="text" data-type="B3" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="B3" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>B4</td>
+                    <td><input type="text" data-type="B4" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="B4" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>B5</td>
+                    <td><input type="text" data-type="B5" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="B5" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>SN</td>
+                    <td><input type="text" data-type="SN" data-field="fabric" class="panel-input"></td>
+                    <td><input type="text" data-type="SN" data-field="color" class="panel-input"></td>
+                </tr>
+                <tr>
+                    <td>LF</td>
+                    <td><input type="text" data-type="LF" data-field="fabric" class="panel-input" disabled></td>
+                    <td><input type="text" data-type="LF" data-field="color" class="panel-input" disabled></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 --- FILE END ---
 
 --- FILE START: 04-core-code/ui/tabs/k3-tab/k3-tab-component.js ---
@@ -17215,12 +17645,13 @@ import * as quoteActions from '../../actions/quote-actions.js';
 /**
  * @fileoverview A dedicated sub-view for handling all logic related to the K2 (Fabric) tab.
  */
-export class K2FabricView {
-    constructor({ stateService, eventAggregator, publishStateChangeCallback }) {
+export class
+    K2FabricView {
+    constructor({ stateService, eventAggregator, fabricBatchTable }) {
         this.stateService = stateService;
         this.eventAggregator = eventAggregator;
-        this.publish = publishStateChangeCallback;
-        
+        this.fabricBatchTable = fabricBatchTable; // [NEW] Store injected DOM element
+
         this.indexesToExcludeFromBatchUpdate = new Set();
         // [NEW] Track the last enabled input for the SSet Enter key logic
         this.lastSSetInput = null;
@@ -17233,7 +17664,8 @@ export class K2FabricView {
     }
 
     _getItems() {
-        const { quoteData } = this._getState();
+        const
+            { quoteData } = this._getState();
         return quoteData.products[quoteData.currentProduct].items;
     }
 
@@ -17246,8 +17678,9 @@ export class K2FabricView {
             const items = this._getItems();
             const { lfModifiedRowIndexes } = this._getState().quoteData.uiMetadata;
             const eligibleTypes = ['B2', 'B3', 'B4'];
-            
-            const hasConflict = items.some((item, index) => 
+
+            const hasConflict = items.some((item, index) =>
+
                 eligibleTypes.includes(item.fabricType) && lfModifiedRowIndexes.includes(index)
             );
 
@@ -17257,29 +17690,38 @@ export class K2FabricView {
                     closeOnOverlayClick: false,
                     layout: [
                         [
-                            { 
-                                type: 'button', text: 'Overwrite (L-Filter)', 
+
+                            {
+                                type: 'button', text: 'Overwrite (L-Filter)',
                                 callback: () => {
+
                                     this.indexesToExcludeFromBatchUpdate.clear();
                                     this._enterFCMode(true);
-                                } 
+
+                                }
                             },
-                            { 
-                                type: 'button', text: 'Keep Existing (Skip L-Filter)', 
+                            {
+
+                                type: 'button', text: 'Keep Existing (Skip L-Filter)',
                                 callback: () => {
+
                                     this.indexesToExcludeFromBatchUpdate = new Set(this._getState().quoteData.uiMetadata.lfModifiedRowIndexes);
                                     this._enterFCMode(false);
                                 }
                             },
-                            { type: 'button', text: 'Cancel', className: 'secondary', callback: () => {} }
+                            {
+                                type: 'button', text: 'Cancel', className: 'secondary', callback:
+                                    () => { }
+                            }
                         ]
                     ]
                 });
             } else {
                 this._enterFCMode(false);
             }
+
         } else {
-            // [FIX] å¦‚æ??¯å? N&C æ¨¡å??€?ºï??‹å?è§¸ç™¼ blur
+            // [FIX] 
             if (currentMode === 'K2' && document.activeElement.matches('.panel-input')) {
                 document.activeElement.blur();
             }
@@ -17288,6 +17730,7 @@ export class K2FabricView {
     }
 
     _enterFCMode(isOverwriting) {
+
         if (isOverwriting) {
             const items = this._getItems();
             const { lfModifiedRowIndexes } = this._getState().quoteData.uiMetadata;
@@ -17296,6 +17739,7 @@ export class K2FabricView {
             items.forEach((item, index) => {
                 if (eligibleTypes.includes(item.fabricType) && lfModifiedRowIndexes.includes(index)) {
                     indexesToClear.push(index);
+
                 }
             });
             if (indexesToClear.length > 0) {
@@ -17306,18 +17750,20 @@ export class K2FabricView {
         this.stateService.dispatch(uiActions.clearLFSelection());
         this.stateService.dispatch(uiActions.clearSSetSelection());
         this.stateService.dispatch(uiActions.setActiveEditMode('K2'));
-        this._updatePanelInputsState(); 
+        this._updatePanelInputsState();
         this.stateService.dispatch(uiActions.setActiveCell(null, null));
     }
 
     handlePanelInputBlur({ type, field, value }) {
         const currentMode = this._getState().ui.activeEditMode;
-        
+
         if (type === 'LF') {
             // No action on blur for LF, only on Apply/Exit
         } else if (currentMode === 'K2') {
-            // [FIX] ?ªæ???K2 (N&C) æ¨¡å?ä¸‹ï?blur ?è§¸?¼å„²å­?            this.stateService.dispatch(quoteActions.batchUpdatePropertyByType(type, field, value, this.indexesToExcludeFromBatchUpdate));
+            // [FIX] K2 (N&C) blur 
+            this.stateService.dispatch(quoteActions.batchUpdatePropertyByType(type, field, value, this.indexesToExcludeFromBatchUpdate));
         }
+
         // SSet mode also only applies on exit/enter
     }
 
@@ -17326,28 +17772,35 @@ export class K2FabricView {
         const activeElement = document.activeElement;
 
         if (activeEditMode === 'K2') {
-            // [FIX] å°?querySelector ç¯„å??å???#fabric-batch-table ??            const inputs = Array.from(document.querySelectorAll('#fabric-batch-table .panel-input:not([disabled])'));
+            // [FIX] [REFACTORED] Use injected this.fabricBatchTable
+            const inputs = Array.from(this.fabricBatchTable.querySelectorAll('.panel-input:not([disabled])'));
             const currentIndex = inputs.indexOf(activeElement);
             const nextInput = inputs[currentIndex + 1];
 
             if (nextInput) {
+
                 nextInput.focus();
                 nextInput.select();
             } else {
-                // [FIX] ä¿®æ­£ N&C æ¨¡å???Enter ?µé?è¼?                // 1. ?Œæ­¥?°å‘¼??handlePanelInputBlur (?²å??€å¾Œä?ç­†è???
+                // [FIX] N&C Enter 
+                // 1. 
                 if (activeElement && activeElement.matches('.panel-input')) {
                     this.handlePanelInputBlur({
+
                         type: activeElement.dataset.type,
                         field: activeElement.dataset.field,
                         value: activeElement.value
+
                     });
                 }
-                // 2. æ­?¸¸?€?ºæ¨¡å¼ã€?                this._exitAllK2Modes();
+                // 2. 
+                this._exitAllK2Modes();
             }
         } else if (activeEditMode === 'K2_LF_SELECT') {
-            // [FIX] Implement correct Enter key logic for LF mode
-            const lfFnameInput = document.querySelector('input[data-type="LF"][data-field="fabric"]');
-            const lfFcolorInput = document.querySelector('input[data-type="LF"][data-field="color"]');
+
+            // [FIX] [REFACTORED] Use injected this.fabricBatchTable
+            const lfFnameInput = this.fabricBatchTable.querySelector('input[data-type="LF"][data-field="fabric"]');
+            const lfFcolorInput = this.fabricBatchTable.querySelector('input[data-type="LF"][data-field="color"]');
 
             if (activeElement === lfFnameInput && lfFcolorInput) {
                 // User pressed Enter on F-Name, move to F-Color
@@ -17355,6 +17808,7 @@ export class K2FabricView {
                 lfFcolorInput.select();
             } else if (activeElement === lfFcolorInput) {
                 // User pressed Enter on F-Color (last input), apply changes and exit
+
                 this._applyLFChanges();
                 this._exitAllK2Modes();
             }
@@ -17364,8 +17818,10 @@ export class K2FabricView {
                 this._applySSetChanges();
                 this._exitAllK2Modes();
             } else {
+
                 // Move to the next enabled input
-                const inputs = Array.from(document.querySelectorAll('#fabric-batch-table .panel-input:not([disabled])'));
+                // [REFACTORED] Use injected this.fabricBatchTable
+                const inputs = Array.from(this.fabricBatchTable.querySelectorAll('.panel-input:not([disabled])'));
                 const currentIndex = inputs.indexOf(activeElement);
                 const nextInput = inputs[currentIndex + 1];
                 if (nextInput) {
@@ -17373,6 +17829,7 @@ export class K2FabricView {
                     nextInput.select();
                 }
             }
+
         }
     }
 
@@ -17384,13 +17841,15 @@ export class K2FabricView {
         if (activeEditMode === 'K2_LF_SELECT') {
             const eligibleTypes = ['B2', 'B3', 'B4'];
             if (!eligibleTypes.includes(item.fabricType)) {
+
                 this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'Only items with TYPE "B2", "B3", or "B4" can be selected for Light-Filter.', type: 'error' });
                 return;
             }
             this.stateService.dispatch(uiActions.toggleLFSelection(rowIndex));
             this._updatePanelInputsState(); // Update to enable/disable LF inputs
-            
+
         } else if (activeEditMode === 'K2_LF_DELETE_SELECT') {
+
             const { lfModifiedRowIndexes } = this._getState().quoteData.uiMetadata;
             if (!lfModifiedRowIndexes.includes(rowIndex)) {
                 this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'Only items with a Light-Filter setting (pink background) can be selected for deletion.', type: 'error' });
@@ -17400,6 +17859,7 @@ export class K2FabricView {
 
         } else if (activeEditMode === 'K2_SSET_SELECT') {
             // [NEW] Logic for SSet selection
+
             this.stateService.dispatch(uiActions.toggleSSetSelection(rowIndex));
             this._updatePanelInputsState(); // Update to enable/disable inputs based on selection
         }
@@ -17407,7 +17867,7 @@ export class K2FabricView {
 
     handleLFEditRequest() {
         const { activeEditMode } = this._getState().ui;
-        
+
         if (activeEditMode === 'K2_LF_SELECT') {
             this._applyLFChanges();
             this._exitAllK2Modes();
@@ -17422,10 +17882,11 @@ export class K2FabricView {
 
     handleLFDeleteRequest() {
         const { activeEditMode } = this._getState().ui;
-        
+
         if (activeEditMode === 'K2_LF_DELETE_SELECT') {
             const { lfSelectedRowIndexes } = this._getState().ui;
             if (lfSelectedRowIndexes.length > 0) {
+
                 this.stateService.dispatch(quoteActions.removeLFProperties(lfSelectedRowIndexes));
                 this.stateService.dispatch(quoteActions.removeLFModifiedRows(lfSelectedRowIndexes));
                 this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'Light-Filter settings have been cleared.' });
@@ -17448,7 +17909,8 @@ export class K2FabricView {
             // If already in SSet mode, clicking again applies the changes
             this._applySSetChanges();
             this._exitAllK2Modes();
-        } else {
+        }
+        else {
             // Clear other K2 mode selections
             this.stateService.dispatch(uiActions.clearLFSelection());
             this.stateService.dispatch(uiActions.clearSSetSelection());
@@ -17464,7 +17926,7 @@ export class K2FabricView {
         this.stateService.dispatch(uiActions.clearMultiSelectSelection());
         this.stateService.dispatch(uiActions.clearLFSelection());
         this.stateService.dispatch(uiActions.clearSSetSelection()); // [NEW] Clear SSet selection
-        
+
         this.indexesToExcludeFromBatchUpdate.clear();
         this.lastSSetInput = null; // [NEW] Clear last input tracker
 
@@ -17475,10 +17937,12 @@ export class K2FabricView {
         const { lfSelectedRowIndexes } = this._getState().ui;
         if (lfSelectedRowIndexes.length === 0) return;
 
-        const fNameInput = document.querySelector('input[data-type="LF"][data-field="fabric"]');
-        const fColorInput = document.querySelector('input[data-type="LF"][data-field="color"]');
-        
+        // [REFACTORED] Use injected this.fabricBatchTable
+        const fNameInput = this.fabricBatchTable.querySelector('input[data-type="LF"][data-field="fabric"]');
+        const fColorInput = this.fabricBatchTable.querySelector('input[data-type="LF"][data-field="color"]');
+
         if (fNameInput && fColorInput && fNameInput.value && fColorInput.value) {
+
             const fabricNameWithPrefix = `Light-filter ${fNameInput.value}`;
             this.stateService.dispatch(quoteActions.batchUpdateLFProperties(lfSelectedRowIndexes, fabricNameWithPrefix, fColorInput.value));
             this.stateService.dispatch(quoteActions.addLFModifiedRows(lfSelectedRowIndexes));
@@ -17494,13 +17958,16 @@ export class K2FabricView {
         }
 
         const typeMap = {};
-        const allPanelInputs = document.querySelectorAll('#fabric-batch-table .panel-input');
-        
+        // [REFACTORED] Use injected this.fabricBatchTable
+        const allPanelInputs
+            = this.fabricBatchTable.querySelectorAll('.panel-input');
+
         allPanelInputs.forEach(input => {
             if (!input.disabled && input.dataset.type !== 'LF') {
                 const type = input.dataset.type;
                 const field = input.dataset.field;
                 if (!typeMap[type]) {
+
                     typeMap[type] = {};
                 }
                 typeMap[type][field] = input.value;
@@ -17508,6 +17975,7 @@ export class K2FabricView {
         });
 
         // Filter map to only include entries where both fabric and color are set
+
         const finalTypeMap = {};
         let typesApplied = 0;
         for (const type in typeMap) {
@@ -17518,6 +17986,7 @@ export class K2FabricView {
         }
 
         if (typesApplied > 0) {
+
             // [FIX] Identify which selected rows will actually be modified
             const items = this._getItems();
             const modifiedIndexes = sSetSelectedRowIndexes.filter(index => {
@@ -17525,15 +17994,18 @@ export class K2FabricView {
                 return itemType && finalTypeMap[itemType];
             });
 
-            if (modifiedIndexes.length > 0) {
+            if
+                (modifiedIndexes.length > 0) {
                 this.stateService.dispatch(quoteActions.batchUpdatePropertiesForIndexes(modifiedIndexes, finalTypeMap));
-                
-                // [FIX] ç§»é™¤å¤šé???dispatch??                // `batchUpdatePropertiesForIndexes` ??reducer 
-                // å·²ç??ƒè‡ª?•è???`lfModifiedRowIndexes` ?„æ??¤ã€?                // this.stateService.dispatch(quoteActions.removeLFModifiedRows(modifiedIndexes));
+
+                // [FIX] 
+                // `batchUpdatePropertiesForIndexes` 
+                // 
+                // this.stateService.dispatch(quoteActions.removeLFModifiedRows(modifiedIndexes));
 
                 this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: `Fabric details applied to ${modifiedIndexes.length} items.` });
             } else {
-                 this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'No selected items matched the types you edited.' });
+                this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'No selected items matched the types you edited.' });
             }
         } else {
             this.eventAggregator.publish(EVENTS.SHOW_NOTIFICATION, { message: 'No changes applied. Please fill in both F-Name and F-Color for a type.' });
@@ -17542,39 +18014,48 @@ export class K2FabricView {
 
 
     _updatePanelInputsState() {
+        if (!this.fabricBatchTable) return; // Guard clause
+
         const { ui, quoteData } = this._getState();
         const { activeEditMode, lfSelectedRowIndexes, sSetSelectedRowIndexes } = ui;
         const items = this._getItems();
         const { lfModifiedRowIndexes } = quoteData.uiMetadata;
         const presentTypes = new Set(items.map(item => item.fabricType).filter(Boolean));
-        
-        const allPanelInputs = document.querySelectorAll('#fabric-batch-table .panel-input');
+
+        // [REFACTORED] Use injected this.fabricBatchTable
+        const allPanelInputs = this.fabricBatchTable.querySelectorAll('.panel-input');
         let firstEnabledInput = null;
         this.lastSSetInput = null; // Reset last input tracker
-        
+
         if (activeEditMode === 'K2') {
             allPanelInputs.forEach(input => {
                 const type = input.dataset.type;
+
                 const field = input.dataset.field;
 
                 if (type !== 'LF') {
                     const isEnabled = presentTypes.has(type);
                     input.disabled = !isEnabled;
 
+
                     if (isEnabled) {
                         if (!firstEnabledInput) {
                             firstEnabledInput = input;
+
                         }
-                        const itemWithData = items.find((item, index) => 
+                        const itemWithData = items.find((item, index) =>
                             item.fabricType === type && !this.indexesToExcludeFromBatchUpdate.has(index)
+
                         );
                         input.value = itemWithData ? itemWithData[field] : '';
                     } else {
-                        input.value = '';
+                        input.value
+                            = '';
                     }
                 } else {
                     input.disabled = true;
                 }
+
             });
 
             if (firstEnabledInput) {
@@ -17583,23 +18064,28 @@ export class K2FabricView {
                     firstEnabledInput.select();
                 }, 50);
             }
+
         } else if (activeEditMode === 'K2_LF_SELECT') {
             allPanelInputs.forEach(input => {
                 const isLFRow = input.dataset.type === 'LF';
                 const hasSelection = lfSelectedRowIndexes.length > 0;
-                input.disabled = !(isLFRow && hasSelection);
-                
+                input.disabled
+                    = !(isLFRow && hasSelection);
+
                 // [FIX] Auto-fill LF inputs from first selected item
                 if (isLFRow && hasSelection) {
-                    const firstItem = items[lfSelectedRowIndexes[0]];
+                    const firstItem
+                        = items[lfSelectedRowIndexes[0]];
                     if (firstItem && lfModifiedRowIndexes.includes(lfSelectedRowIndexes[0])) {
                         // [FIX] Remove "Light-filter " prefix when populating input
-                        input.value = (firstItem[input.dataset.field] || '').replace('Light-filter ', '');
+                        input.value = (firstItem[input.dataset.field] ||
+                            '').replace('Light-filter ', '');
                     }
                 }
             });
         } else if (activeEditMode === 'K2_SSET_SELECT') {
             // [NEW] Logic for SSet mode
+
             const selectedTypes = new Set(
                 sSetSelectedRowIndexes.map(index => items[index].fabricType).filter(Boolean)
             );
@@ -17607,19 +18093,23 @@ export class K2FabricView {
             allPanelInputs.forEach(input => {
                 const type = input.dataset.type;
                 const isEnabled = type !== 'LF' && selectedTypes.has(type);
+
                 input.disabled = !isEnabled;
 
                 if (isEnabled) {
                     // Find the first selected item of this type to pre-fill data
-                    const firstMatchingIndex = sSetSelectedRowIndexes.find(index => items[index].fabricType === type);
+                    const firstMatchingIndex =
+                        sSetSelectedRowIndexes.find(index => items[index].fabricType === type);
                     const firstItem = items[firstMatchingIndex];
                     input.value = firstItem[input.dataset.field] || '';
 
                     if (!firstEnabledInput) {
+
                         firstEnabledInput = input;
                     }
                     // Track the last enabled input
                     this.lastSSetInput = input;
+
                 } else {
                     input.value = '';
                 }
@@ -17632,16 +18122,18 @@ export class K2FabricView {
                 }, 50);
             }
         } else {
-             allPanelInputs.forEach(input => {
+            allPanelInputs.forEach(input => {
+
                 input.disabled = true;
                 input.value = '';
             });
         }
     }
-    
+
     activate() {
         this.stateService.dispatch(uiActions.setVisibleColumns(['sequence', 'fabricTypeDisplay', 'fabric', 'color']));
         // [MODIFIED] When tab activates, ensure all K2 modes are exited
+
         this._exitAllK2Modes();
     }
 }
